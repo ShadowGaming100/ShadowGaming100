@@ -1,4 +1,5 @@
-name: Update Profile Statistics
+
+name: Generate Profile Assets
 
 on:
   schedule:
@@ -9,23 +10,61 @@ permissions:
   contents: write
 
 concurrency:
-  group: profile-statistics
+  group: generate-profile-assets
   cancel-in-progress: true
 
 jobs:
   generate:
+    name: Generate All Profile Graphics
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
+      # Checkout profile repository
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
-      - name: Generate profile cards
-        uses: seijikohara/profile-cards-action@v0
+      # Generate GitHub statistics cards
+      - name: Generate GitHub statistics
+        uses: seijikohara/profile-cards-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           username: ShadowGaming100
-          cards: overview,contributions,languages
+          cards: overview,momentum,contributions,lifetime,composition,rhythm,cadence,repositories,portfolio,languages
           output-dir: assets
           themes: light,dark
-          commit: true
+          commit: false
+
+      # Generate 3D contribution graphics
+      - name: Generate 3D contribution graphics
+        uses: yoshi389111/github-profile-3d-contrib@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ShadowGaming100
+
+      # Generate animated contribution snake
+      - name: Generate contribution snake
+        uses: Platane/snk@v3
+        with:
+          github_user_name: ShadowGaming100
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          outputs: |
+            assets/github-snake.svg?color_snake=%23000000&color_dots=%23ebedf0,%23c6c6c6,%23888888,%23555555,%23222222
+            assets/github-snake-dark.svg?color_snake=%23ffffff&color_dots=%23333333,%23555555,%23777777,%23aaaaaa,%23dddddd
+
+      # Commit everything together
+      - name: Commit generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/ profile-3d-contrib/
+
+          if git diff --cached --quiet; then
+            echo "No generated assets changed."
+          else
+            git commit -m "chore: update profile assets"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
