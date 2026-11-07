@@ -2,10 +2,17 @@
 name: Generate Profile Assets
 
 on:
+  workflow_dispatch:
+
   schedule:
     - cron: "0 0 * * *"
 
-  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - README.md
+      - .github/workflows/main.yml
 
 permissions:
   contents: write
@@ -16,24 +23,22 @@ concurrency:
 
 jobs:
   generate:
-    name: Generate All Profile Graphics
+    name: Generate All Profile Assets
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
-      # Checkout profile repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Create asset directories
       - name: Prepare directories
         run: |
           mkdir -p assets
           mkdir -p profile-3d-contrib
 
-      # Generate GitHub statistics
+      # GitHub statistics
       - name: Generate GitHub statistics
         uses: seijikohara/profile-cards-action@v1
         with:
@@ -44,27 +49,36 @@ jobs:
           themes: light,dark
           commit: false
 
-      # Generate 3D contribution graphics
+      # 3D contribution graphics
       - name: Generate 3D contribution graphics
         uses: yoshi389111/github-profile-3d-contrib@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ShadowGaming100
 
-      # Generate contribution snake
+      # Animated contribution snake as GIF
       - name: Generate contribution snake
         uses: Platane/snk@v3
         with:
           github_user_name: ShadowGaming100
           github_token: ${{ secrets.GITHUB_TOKEN }}
           outputs: |
-            assets/github-snake.svg?color_snake=%23000000&color_dots=%23ebedf0,%23c6c6c6,%23888888,%23555555,%23222222
-            assets/github-snake-dark.svg?color_snake=%23ffffff&color_dots=%23333333,%23555555,%23777777,%23aaaaaa,%23dddddd
+            assets/github-snake.gif?color_snake=%23ffffff&color_dots=%230d1117,%23333333,%23666666,%23aaaaaa,%23ffffff&color_background=%23050505
 
-      # Verify required assets
+      # Generate trophies locally instead of relying on
+      # the public GitHub Profile Trophy deployment.
+      - name: Generate GitHub trophies
+        uses: Erik-Donath/github-profile-trophy@feature/generate-svg
+        with:
+          username: ShadowGaming100
+          output_path: assets/trophy.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Check every locally generated README image
       - name: Verify generated assets
+        shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           required_files=(
             "assets/overview.light.svg"
@@ -73,20 +87,28 @@ jobs:
             "assets/contributions.dark.svg"
             "assets/languages.light.svg"
             "assets/languages.dark.svg"
-            "assets/github-snake.svg"
-            "assets/github-snake-dark.svg"
-            "profile-3d-contrib/profile-green-animate.svg"
+            "assets/github-snake.gif"
+            "assets/trophy.svg"
+            "profile-3d-contrib/profile-night-view.svg"
           )
 
           for file in "${required_files[@]}"; do
-            if [ ! -s "$file" ]; then
+            if [[ ! -s "$file" ]]; then
               echo "::error::Missing generated asset: $file"
               exit 1
             fi
+
             echo "Verified: $file"
           done
 
-      # Commit all generated assets together
+          file assets/github-snake.gif
+
+          if ! file assets/github-snake.gif | grep -qi GIF; then
+            echo "::error::Contribution snake is not a valid GIF."
+            exit 1
+          fi
+
+      # Commit everything in one commit
       - name: Commit generated assets
         run: |
           git config user.name "github-actions[bot]"
@@ -96,7 +118,8 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "No generated assets changed."
-          else
-            git commit -m "chore: update profile assets"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            exit 0
           fi
+
+          git commit -m "chore(profile): update profile graphics"
+          git push origin HEAD:master
