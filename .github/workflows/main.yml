@@ -4,6 +4,7 @@ name: Generate Profile Assets
 on:
   schedule:
     - cron: "0 0 * * *"
+
   workflow_dispatch:
 
 permissions:
@@ -22,17 +23,23 @@ jobs:
     steps:
       # Checkout profile repository
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Generate GitHub statistics cards
+      # Create asset directories
+      - name: Prepare directories
+        run: |
+          mkdir -p assets
+          mkdir -p profile-3d-contrib
+
+      # Generate GitHub statistics
       - name: Generate GitHub statistics
         uses: seijikohara/profile-cards-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           username: ShadowGaming100
-          cards: overview,momentum,contributions,lifetime,composition,rhythm,cadence,repositories,portfolio,languages
+          cards: overview,contributions,languages
           output-dir: assets
           themes: light,dark
           commit: false
@@ -44,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ShadowGaming100
 
-      # Generate animated contribution snake
+      # Generate contribution snake
       - name: Generate contribution snake
         uses: Platane/snk@v3
         with:
@@ -54,7 +61,32 @@ jobs:
             assets/github-snake.svg?color_snake=%23000000&color_dots=%23ebedf0,%23c6c6c6,%23888888,%23555555,%23222222
             assets/github-snake-dark.svg?color_snake=%23ffffff&color_dots=%23333333,%23555555,%23777777,%23aaaaaa,%23dddddd
 
-      # Commit everything together
+      # Verify required assets
+      - name: Verify generated assets
+        run: |
+          set -e
+
+          required_files=(
+            "assets/overview.light.svg"
+            "assets/overview.dark.svg"
+            "assets/contributions.light.svg"
+            "assets/contributions.dark.svg"
+            "assets/languages.light.svg"
+            "assets/languages.dark.svg"
+            "assets/github-snake.svg"
+            "assets/github-snake-dark.svg"
+            "profile-3d-contrib/profile-green-animate.svg"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [ ! -s "$file" ]; then
+              echo "::error::Missing generated asset: $file"
+              exit 1
+            fi
+            echo "Verified: $file"
+          done
+
+      # Commit all generated assets together
       - name: Commit generated assets
         run: |
           git config user.name "github-actions[bot]"
