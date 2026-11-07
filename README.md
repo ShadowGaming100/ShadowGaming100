@@ -1,85 +1,109 @@
 <div align="center">
-  <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=220&color=0:050505,35:202020,70:555555,100:050505&text=SHADOWGAMING100&fontSize=43&fontColor=ffffff&fontAlignY=38&animation=twinkling&desc=DEVELOPER%20%7C%20BUILDER%20%7C%20FOUNDER&descSize=15&descAlignY=58" alt="ShadowGaming100 profile banner" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/hero.dark.svg" />
+    <img src="./assets/hero.light.svg" width="100%" alt="ShadowGaming100 | Developer, Builder, Founder" />
+  </picture>
 
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=2800&pause=900&color=FFFFFF&center=true&vCenter=true&width=650&height=50&lines=Building+digital+experiences.;Turning+ideas+into+code.;Founder+of+FreeHosts.;Developer+at+Nemethic." alt="Animated introduction" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/typing.dark.svg" />
+    <img src="./assets/typing.light.svg" width="720" alt="Building digital experiences. Turning ideas into code. Founder of FreeHosts. Developer at Nemethic." />
+  </picture>
 
   <br/>
 
   <a href="https://github.com/ShadowGaming100">
-    <img src="https://github.com/ShadowGaming100.png" width="112" alt="ShadowGaming100 GitHub avatar" />
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/github.dark.svg" />
+      <img src="./assets/buttons/github.light.svg" height="52" alt="GitHub" />
+    </picture>
   </a>
-
-  <br/><br/>
-
-  <a href="https://github.com/ShadowGaming100">
-    <img src="./assets/icons/github.svg" width="19" height="19" alt="" />
-    <strong>GitHub</strong>
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://freehosts.eu">
-    <img src="./assets/icons/freehosts.svg" width="19" height="19" alt="" />
-    <strong>FreeHosts</strong>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/freehosts.dark.svg" />
+      <img src="./assets/buttons/freehosts.light.svg" height="52" alt="FreeHosts" />
+    </picture>
   </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="mailto:shadow@freehosts.eu">
-    <img src="./assets/icons/contact.svg" width="19" height="19" alt="" />
-    <strong>Contact</strong>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/contact.dark.svg" />
+      <img src="./assets/buttons/contact.light.svg" height="52" alt="Contact" />
+    </picture>
   </a>
 </div>
-
----
-
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=16&duration=2500&pause=700&color=AAAAAA&center=true&vCenter=true&width=600&height=35&lines=CODE.+CREATE.+AUTOMATE.;JAVASCRIPT+%2F+NODE.JS+%2F+POSTGRESQL;BUILDING+WITH+PURPOSE." alt="Animated tagline" />
-</div>
-
-## ⬡ TECHNOLOGIES
-
-<div align="center">
-  <img src="https://skillicons.dev/icons?i=js,nodejs,discordjs,express,nextjs,postgres,cloudflare&theme=dark" alt="JavaScript, Node.js, Discord.js, Express.js, Next.js, PostgreSQL and Cloudflare" />
-</div>
-
----
-
-## ◈ WHAT I DO
-
-<div align="center">
-
-**01 / FOUNDER**
-
-### FreeHosts
-
-Building FreeHosts, a community-driven directory for discovering free hosting providers.
 
 <br/>
 
-**02 / DEVELOPER**
-
-### Nemethic
-
-Developer at Nemethic.
-
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/headers/about.dark.svg" />
+    <img src="./assets/headers/about.light.svg" width="100%" alt="About me" />
+  </picture>
 </div>
 
----
+<div align="center">
+  <img src="./assets/terminal.svg" width="100%" alt="Terminal: ShadowGaming100, Founder at FreeHosts, Developer at Nemethic, JavaScript, Node.js and PostgreSQL" />
+</div>
 
-## ◈ FEATURED PROJECT
+<br/>
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/headers/roles.dark.svg" />
+    <img src="./assets/headers/roles.light.svg" width="100%" alt="What I do" />
+  </picture>
+</div>
 
 <div align="center">
   <a href="https://freehosts.eu">
-    <img src="https://www.google.com/s2/favicons?domain=freehosts.eu&sz=128" width="64" height="64" alt="FreeHosts website icon" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/roles.dark.svg" />
+    <img src="./assets/roles.light.svg" width="100%" alt="01 Founder: FreeHosts. 02 Developer: Nemethic." />
+  </picture>
   </a>
-
-  ### FreeHosts
-
-  A community-driven directory for discovering free hosting providers.
-
-  <a href="https://freehosts.eu">Explore FreeHosts ↗</a>
 </div>
 
----
+<br/>
 
-## ◈ GITHUB STATISTICS
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/headers/stack.dark.svg" />
+    <img src="./assets/headers/stack.light.svg" width="100%" alt="Tech stack" />
+  </picture>
+</div>
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/stack.dark.svg" />
+    <img src="./assets/stack.light.svg" width="100%" alt="JavaScript, Node.js, Discord.js, Express, Next.js, PostgreSQL and Cloudflare" />
+  </picture>
+</div>
+
+<br/>
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/headers/featured.dark.svg" />
+    <img src="./assets/headers/featured.light.svg" width="100%" alt="Featured project" />
+  </picture>
+</div>
+
+<div align="center">
+  <a href="https://freehosts.eu">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/featured.dark.svg" />
+    <img src="./assets/featured.light.svg" width="100%" alt="FreeHosts: a community-driven directory for discovering free hosting providers" />
+  </picture>
+  </a>
+</div>
+
+<br/>
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/headers/stats.dark.svg" />
+    <img src="./assets/headers/stats.light.svg" width="100%" alt="GitHub statistics" />
+  </picture>
+</div>
 
 <div align="center">
   <picture>
@@ -98,42 +122,56 @@ Developer at Nemethic.
   </picture>
 </div>
 
----
-
-## ◈ 3D CONTRIBUTION WORLD
+<br/>
 
 <div align="center">
-  <img src="./profile-3d-contrib/profile-green-animate.svg" width="100%" alt="Animated 3D GitHub contribution graph" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/headers/world.dark.svg" />
+    <img src="./assets/headers/world.light.svg" width="100%" alt="3D contribution world" />
+  </picture>
 </div>
 
----
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-green.svg" />
+    <img src="./profile-3d-contrib/profile-green-animate.svg" width="100%" alt="Animated 3D GitHub contribution graph" />
+  </picture>
+</div>
 
-## ◈ CONTRIBUTION SNAKE
+<br/>
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/headers/snake.dark.svg" />
+    <img src="./assets/headers/snake.light.svg" width="100%" alt="Contribution snake" />
+  </picture>
+</div>
 
 <div align="center">
   <img src="./assets/github-snake.gif" width="100%" alt="Animated GitHub contribution snake" />
 </div>
 
----
-
-## ◈ GITHUB TROPHIES
+<br/>
 
 <div align="center">
-  <img src="./assets/trophy.svg" width="100%" alt="GitHub profile trophies" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/headers/trophies.dark.svg" />
+    <img src="./assets/headers/trophies.light.svg" width="100%" alt="Trophies" />
+  </picture>
 </div>
 
----
-
-## ◈ GITHUB ACTIVITY
-
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=ShadowGaming100&bg_color=050505&color=ffffff&line=888888&point=ffffff&area=true&hide_border=true&custom_title=GitHub%20Activity" width="100%" alt="GitHub activity graph" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/trophy.dark.svg" />
+    <img src="./assets/trophy.light.svg" width="100%" alt="GitHub profile trophies" />
+  </picture>
 </div>
 
----
+<br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:050505,50:333333,100:777777&animation=twinkling" width="100%" alt="Profile footer" />
-
-  © ShadowGaming100
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/footer.dark.svg" />
+    <img src="./assets/footer.light.svg" width="100%" alt="© ShadowGaming100" />
+  </picture>
 </div>
