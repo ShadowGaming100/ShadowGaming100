@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "17 0 * * *"
 
   push:
     branches:
@@ -25,7 +25,7 @@ jobs:
   generate:
     name: Generate All Profile Assets
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -36,9 +36,10 @@ jobs:
       - name: Prepare directories
         run: |
           mkdir -p assets
+          mkdir -p assets/icons
           mkdir -p profile-3d-contrib
 
-      # GitHub statistics
+      # GitHub statistics cards
       - name: Generate GitHub statistics
         uses: seijikohara/profile-cards-action@v1
         with:
@@ -56,7 +57,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ShadowGaming100
 
-      # Animated contribution snake as GIF
+      # Animated contribution snake
       - name: Generate contribution snake
         uses: Platane/snk@v3
         with:
@@ -65,16 +66,37 @@ jobs:
           outputs: |
             assets/github-snake.gif?color_snake=%23ffffff&color_dots=%230d1117,%23333333,%23666666,%23aaaaaa,%23ffffff&color_background=%23050505
 
-      # Generate trophies locally instead of relying on
-      # the public GitHub Profile Trophy deployment.
-      - name: Generate GitHub trophies
-        uses: Erik-Donath/github-profile-trophy@feature/generate-svg
+      # Trophy generation
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
         with:
-          username: ShadowGaming100
-          output_path: assets/trophy.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          deno-version: v1.x
 
-      # Check every locally generated README image
+      - name: Generate GitHub trophies
+        shell: bash
+        env:
+          GITHUB_TOKEN1: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN2: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          git clone --depth 1 \
+            https://github.com/ryo-ma/github-profile-trophy.git \
+            "$RUNNER_TEMP/github-profile-trophy"
+
+          cd "$RUNNER_TEMP/github-profile-trophy"
+
+          deno run \
+            --allow-net \
+            --allow-env \
+            --allow-read \
+            --allow-write \
+            ./render_svg.ts \
+            ShadowGaming100 \
+            "$GITHUB_WORKSPACE/assets/trophy.svg" \
+            dark
+
+      # Verify generated files
       - name: Verify generated assets
         shell: bash
         run: |
@@ -89,7 +111,7 @@ jobs:
             "assets/languages.dark.svg"
             "assets/github-snake.gif"
             "assets/trophy.svg"
-            "profile-3d-contrib/profile-night-view.svg"
+            "profile-3d-contrib/profile-green-animate.svg"
           )
 
           for file in "${required_files[@]}"; do
@@ -101,25 +123,29 @@ jobs:
             echo "Verified: $file"
           done
 
-          file assets/github-snake.gif
-
-          if ! file assets/github-snake.gif | grep -qi GIF; then
+          if ! file assets/github-snake.gif | grep -qi 'GIF image data'; then
             echo "::error::Contribution snake is not a valid GIF."
             exit 1
           fi
 
-      # Commit everything in one commit
+          grep -q '<svg' assets/trophy.svg
+          grep -q '<svg' profile-3d-contrib/profile-green-animate.svg
+
+      # Commit generated assets
       - name: Commit generated assets
+        shell: bash
         run: |
+          set -euo pipefail
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add assets/ profile-3d-contrib/
+          git add assets/*.svg assets/*.gif profile-3d-contrib/
 
           if git diff --cached --quiet; then
             echo "No generated assets changed."
             exit 0
           fi
 
-          git commit -m "chore(profile): update profile graphics"
+          git commit -m "chore(profile): update generated profile assets [skip ci]"
           git push origin HEAD:master
