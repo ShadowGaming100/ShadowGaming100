@@ -1,25 +1,26 @@
-
 name: Generate Profile Assets
 
 on:
   workflow_dispatch:
-
   schedule:
     - cron: "17 0 * * *"
-
   push:
-    branches:
-      - master
+    branches: [master, main]
     paths:
       - README.md
       - .github/workflows/main.yml
+      - scripts/generate_assets.py
 
 permissions:
   contents: write
 
+# Never cancel a half-finished run; queue the next one instead.
 concurrency:
   group: generate-profile-assets
-  cancel-in-progress: true
+  cancel-in-progress: false
+
+env:
+  PROFILE_USER: ShadowGaming100
 
 jobs:
   generate:
@@ -34,45 +35,48 @@ jobs:
           fetch-depth: 0
 
       - name: Prepare directories
-        run: |
-          mkdir -p assets
-          mkdir -p assets/icons
-          mkdir -p profile-3d-contrib
+        run: mkdir -p assets profile-3d-contrib
 
-      # GitHub statistics cards
+      # Hero, headers, buttons, cards, stack, terminal, footer (local SVG art)
+      - name: Generate README artwork
+        run: python3 scripts/generate_assets.py
+
+      # GitHub statistics cards (light + dark)
       - name: Generate GitHub statistics
         uses: seijikohara/profile-cards-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          username: ShadowGaming100
+          username: ${{ env.PROFILE_USER }}
           cards: overview,contributions,languages
           output-dir: assets
           themes: light,dark
           commit: false
 
-      # 3D contribution graphics
+      # 3D contribution graphics (animated green = light, night green = dark)
       - name: Generate 3D contribution graphics
         uses: yoshi389111/github-profile-3d-contrib@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ShadowGaming100
+          USERNAME: ${{ env.PROFILE_USER }}
 
       # Animated contribution snake
       - name: Generate contribution snake
         uses: Platane/snk@v3
         with:
-          github_user_name: ShadowGaming100
+          github_user_name: ${{ env.PROFILE_USER }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           outputs: |
             assets/github-snake.gif?color_snake=%23ffffff&color_dots=%230d1117,%23333333,%23666666,%23aaaaaa,%23ffffff&color_background=%23050505
 
-      # Trophy generation
+      # Trophies come from a third-party script, so a failure here must not
+      # break the rest of the run. The last good trophy files stay in place.
       - name: Set up Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v1.x
 
       - name: Generate GitHub trophies
+        continue-on-error: true
         shell: bash
         env:
           GITHUB_TOKEN1: ${{ secrets.GITHUB_TOKEN }}
@@ -82,56 +86,84 @@ jobs:
 
           git clone --depth 1 \
             https://github.com/ryo-ma/github-profile-trophy.git \
-            "$RUNNER_TEMP/github-profile-trophy"
+            "$RUNNER_TEMP/trophy"
+          cd "$RUNNER_TEMP/trophy"
 
-          cd "$RUNNER_TEMP/github-profile-trophy"
+          render() {
+            local theme="$1" out="$2"
+            deno run --allow-net --allow-env --allow-read --allow-write \
+              ./render_svg.ts "$PROFILE_USER" "$RUNNER_TEMP/$out" "$theme"
+            grep -q '<svg' "$RUNNER_TEMP/$out"
+            cp "$RUNNER_TEMP/$out" "$GITHUB_WORKSPACE/assets/$out"
+          }
 
-          deno run \
-            --allow-net \
-            --allow-env \
-            --allow-read \
-            --allow-write \
-            ./render_svg.ts \
-            ShadowGaming100 \
-            "$GITHUB_WORKSPACE/assets/trophy.svg" \
-            dark
+          render darkhub  trophy.dark.svg
+          render default  trophy.light.svg
 
-      # Verify generated files
       - name: Verify generated assets
         shell: bash
         run: |
           set -euo pipefail
 
-          required_files=(
-            "assets/overview.light.svg"
-            "assets/overview.dark.svg"
-            "assets/contributions.light.svg"
-            "assets/contributions.dark.svg"
-            "assets/languages.light.svg"
-            "assets/languages.dark.svg"
-            "assets/github-snake.gif"
-            "assets/trophy.svg"
-            "profile-3d-contrib/profile-green-animate.svg"
+          required=(
+            assets/overview.light.svg assets/overview.dark.svg
+            assets/contributions.light.svg assets/contributions.dark.svg
+            assets/languages.light.svg assets/languages.dark.svg
+            assets/github-snake.gif
+            assets/trophy.light.svg assets/trophy.dark.svg
+            profile-3d-contrib/profile-green-animate.svg
+            profile-3d-contrib/profile-night-green.svg
+            assets/hero.light.svg
+            assets/hero.dark.svg
+            assets/typing.light.svg
+            assets/typing.dark.svg
+            assets/footer.light.svg
+            assets/footer.dark.svg
+            assets/stack.light.svg
+            assets/stack.dark.svg
+            assets/roles.light.svg
+            assets/roles.dark.svg
+            assets/featured.light.svg
+            assets/featured.dark.svg
+            assets/terminal.svg
+            assets/headers/about.light.svg
+            assets/headers/about.dark.svg
+            assets/headers/roles.light.svg
+            assets/headers/roles.dark.svg
+            assets/headers/stack.light.svg
+            assets/headers/stack.dark.svg
+            assets/headers/featured.light.svg
+            assets/headers/featured.dark.svg
+            assets/headers/stats.light.svg
+            assets/headers/stats.dark.svg
+            assets/headers/world.light.svg
+            assets/headers/world.dark.svg
+            assets/headers/snake.light.svg
+            assets/headers/snake.dark.svg
+            assets/headers/trophies.light.svg
+            assets/headers/trophies.dark.svg
+            assets/buttons/github.light.svg
+            assets/buttons/github.dark.svg
+            assets/buttons/freehosts.light.svg
+            assets/buttons/freehosts.dark.svg
+            assets/buttons/contact.light.svg
+            assets/buttons/contact.dark.svg
           )
 
-          for file in "${required_files[@]}"; do
-            if [[ ! -s "$file" ]]; then
-              echo "::error::Missing generated asset: $file"
+          for f in "${required[@]}"; do
+            if [[ ! -s "$f" ]]; then
+              echo "::error::Missing or empty asset: $f"
               exit 1
             fi
-
-            echo "Verified: $file"
+            case "$f" in
+              *.svg) grep -q '<svg' "$f" || { echo "::error::Not a valid SVG: $f"; exit 1; } ;;
+            esac
+            echo "OK: $f"
           done
 
-          if ! file assets/github-snake.gif | grep -qi 'GIF image data'; then
-            echo "::error::Contribution snake is not a valid GIF."
-            exit 1
-          fi
+          head -c 3 assets/github-snake.gif | grep -q 'GIF' \
+            || { echo "::error::Snake is not a valid GIF"; exit 1; }
 
-          grep -q '<svg' assets/trophy.svg
-          grep -q '<svg' profile-3d-contrib/profile-green-animate.svg
-
-      # Commit generated assets
       - name: Commit generated assets
         shell: bash
         run: |
@@ -140,7 +172,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add assets/*.svg assets/*.gif profile-3d-contrib/
+          git add assets profile-3d-contrib
 
           if git diff --cached --quiet; then
             echo "No generated assets changed."
@@ -148,4 +180,5 @@ jobs:
           fi
 
           git commit -m "chore(profile): update generated profile assets [skip ci]"
-          git push origin HEAD:master
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
