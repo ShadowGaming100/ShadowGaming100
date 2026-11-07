@@ -1,99 +1,64 @@
+ <div align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&height=190&color=0:000000,50:333333,100:777777&text=ShadowGaming100&fontColor=ffffff&fontSize=42&fontAlignY=38&animation=fadeIn&desc=Developer%20%7C%20Founder%20of%20FreeHosts&descAlignY=58&descSize=15" width="100%" />
+<a href="https://github.com/ShadowGaming100">
+  <img src="https://github.com/ShadowGaming100.png" width="115" alt="GitHub avatar" />
+</a>
+<br/>
+</div>
+
+⸻
+
 <div align="center">
 
-# 👋 Welcome to My GitHub Profile
+TECH STACK
 
-### Self-Taught Developer | CEO @ [FreeHosts](https://freehosts.space) | Tech Enthusiast
+<img src="https://skillicons.dev/icons?i=js,nodejs,discordjs,express,nextjs,postgres,cloudflare&theme=dark" />
+</div>
 
-[![Discord](https://img.shields.io/badge/Discord-%237289DA.svg?logo=discord&logoColor=white)](https://discord.gg/QbeZ3b5CQd) 
-[![Email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:shadow@codelabworks.is-a.dev)
+⸻
+
+<div align="center">
+
+FEATURED PROJECT
+
+<a href="https://freehosts.eu">
+  <img src="https://www.google.com/s2/favicons?domain=freehosts.eu&sz=128" width="64" alt="FreeHosts icon" />
+</a>
+
+FreeHosts
+
+A community-driven directory for discovering free hosting providers.
 
 </div>
 
----
-
-## 🚀 Current Focus
-
-- 🔭 **Building:** FreeHosts v2 - Next generation hosting platform
-- 🌱 **Learning:** Expanding my Python expertise
-- 💼 **Leading:** FreeHosts as CEO, providing accessible hosting solutions
-- 🎯 **Mission:** Making technology accessible to everyone
-
----
-
-## 💻 Tech Stack
-
-### Languages
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-
-### Frameworks & Runtime
-![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-
-### Cloud & Deployment
-![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)
-![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
-![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)
-![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)
-
-### Tools & DevOps
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
-![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
-
----
-
-## 📊 GitHub Statistics
+⸻
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=ShadowGaming100&theme=dark&hide_border=false&include_all_commits=true)
+GITHUB STATISTICS
 
-![GitHub Streak](https://nirzak-streak-stats.vercel.app/?user=ShadowGaming100&theme=dark&hide_border=false)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=ShadowGaming100&theme=dark&hide_border=false&include_all_commits=true&count_private=true&layout=compact)
-
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/overview.dark.svg" />
+  <img src="./assets/overview.light.svg" width="100%" alt="GitHub overview statistics" />
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/contributions.dark.svg" />
+  <img src="./assets/contributions.light.svg" width="100%" alt="GitHub contribution history and streaks" />
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/languages.dark.svg" />
+  <img src="./assets/languages.light.svg" width="100%" alt="Most used programming languages" />
+</picture>
 </div>
 
----
-
-## 🏆 Achievements
+⸻
 
 <div align="center">
 
-![GitHub Trophies](https://github-profile-trophy.vercel.app/?username=ShadowGaming100&theme=radical&no-frame=false&no-bg=true&margin-w=4)
+CONTRIBUTION ACTIVITY
 
+<img src="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/output/github-snake-dark.svg" width="100%" alt="Contribution snake" />
 </div>
-
----
-
-## 🔝 Top Contributions
-
 <div align="center">
-
-![Top Contributed Repos](https://github-contributor-stats.vercel.app/api?username=ShadowGaming100&limit=5&theme=dark&combine_all_yearly_contributions=true)
-
-</div>
-
----
-
-## 💭 Dev Wisdom
-
-<div align="center">
-
-![Random Dev Quote](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
-
-</div>
-
----
-
-<div align="center">
-
-### 🌟 Let's Connect & Build Something Amazing Together!
-
-**[FreeHosts](https://freehosts.space)** | **[Discord Community](https://discord.gg/QbeZ3b5CQd)** | **[Email Me](mailto:shadow@codelabworks.is-a.dev)**
-
+<img src="https://capsule-render.vercel.app/api?type=waving&height=100&color=0:777777,50:333333,100:000000&section=footer" width="100%" />
 </div>
