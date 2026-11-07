@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 150" width="1000" height="150" role="img" aria-label="© ShadowGaming100">
+<defs><linearGradient id="w1" x1="0" x2="1"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#22d3ee"/></linearGradient><linearGradient id="w2" x1="1" x2="0"><stop offset="0" stop-color="#f472b6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+<path d="M-400 78 Q-300.0 64 -200.0 78 T0 78 Q100.0 64 200.0 78 T400 78 Q500.0 64 600.0 78 T800 78 Q900.0 64 1000.0 78 T1200 78 Q1300.0 64 1400.0 78 T1600 78 V150 H-400 Z" fill="url(#w2)" opacity="0.35"><animateTransform attributeName="transform" type="translate" from="0 0" to="400 0" dur="11s" begin="-2s" repeatCount="indefinite"/></path>
+<path d="M-500 92 Q-375.0 74 -250.0 92 T0 92 Q125.0 74 250.0 92 T500 92 Q625.0 74 750.0 92 T1000 92 Q1125.0 74 1250.0 92 T1500 92 V150 H-500 Z" fill="url(#w1)" opacity="0.5"><animateTransform attributeName="transform" type="translate" from="0 0" to="500 0" dur="8s" begin="-0s" repeatCount="indefinite"/></path>
+<path d="M-300 108 Q-225.0 96 -150.0 108 T0 108 Q75.0 96 150.0 108 T300 108 Q375.0 96 450.0 108 T600 108 Q675.0 96 750.0 108 T900 108 Q975.0 96 1050.0 108 T1200 108 Q1275.0 96 1350.0 108 T1500 108 V150 H-300 Z" fill="url(#w1)" opacity="0.8"><animateTransform attributeName="transform" type="translate" from="0 0" to="300 0" dur="6s" begin="-3s" repeatCount="indefinite"/></path>
+<rect y="116" width="1000" height="34" fill="#04050a" opacity=".0"/>
+<text x="500" y="58" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="14" font-weight="700" letter-spacing="8" fill="#9ba3bd">© SHADOWGAMING100</text>
+</svg>
