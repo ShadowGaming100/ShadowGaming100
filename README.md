@@ -156,8 +156,8 @@
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/snake.dark.svg" />
-    <img src="./assets/snake.light.svg" width="100%" alt="Snake eating my GitHub contributions" />
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/snake.dark.gif" />
+    <img src="./assets/snake.light.gif" width="100%" alt="Snake eating my GitHub contributions" />
   </picture>
 </div>
 
