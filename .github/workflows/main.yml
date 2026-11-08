@@ -112,64 +112,20 @@ jobs:
         run: |
           set -euo pipefail
 
-          required=(
-            assets/overview.light.svg assets/overview.dark.svg
-            assets/contributions.light.svg assets/contributions.dark.svg
-            assets/languages.light.svg assets/languages.dark.svg
-            assets/snake.light.gif assets/snake.dark.gif
-            assets/trophy.light.svg assets/trophy.dark.svg
-            profile-3d-contrib/profile-green-animate.svg
-            profile-3d-contrib/profile-night-green.svg
-            assets/hero.light.svg
-            assets/hero.dark.svg
-            assets/typing.light.svg
-            assets/typing.dark.svg
-            assets/footer.light.svg
-            assets/footer.dark.svg
-            assets/stack.light.svg
-            assets/stack.dark.svg
-            assets/roles.light.svg
-            assets/roles.dark.svg
-            assets/featured.light.svg
-            assets/featured.dark.svg
-            assets/terminal.svg
-            assets/headers/about.light.svg
-            assets/headers/about.dark.svg
-            assets/headers/roles.light.svg
-            assets/headers/roles.dark.svg
-            assets/headers/stack.light.svg
-            assets/headers/stack.dark.svg
-            assets/headers/featured.light.svg
-            assets/headers/featured.dark.svg
-            assets/headers/stats.light.svg
-            assets/headers/stats.dark.svg
-            assets/headers/world.light.svg
-            assets/headers/world.dark.svg
-            assets/headers/snake.light.svg
-            assets/headers/snake.dark.svg
-            assets/headers/trophies.light.svg
-            assets/headers/trophies.dark.svg
-            assets/buttons/github.light.svg
-            assets/buttons/github.dark.svg
-            assets/buttons/freehosts.light.svg
-            assets/buttons/freehosts.dark.svg
-            assets/buttons/contact.light.svg
-            assets/buttons/contact.dark.svg
-          )
+          # every local image the README points to must exist and be valid
+          mapfile -t files < <(grep -oE '\./(assets|profile-3d-contrib)/[^" )]+' README.md | sed 's#^\./##' | sort -u)
+          [[ ${#files[@]} -gt 0 ]] || { echo "::error::No local images found in README"; exit 1; }
 
-          for f in "${required[@]}"; do
+          for f in "${files[@]}"; do
             if [[ ! -s "$f" ]]; then
               echo "::error::Missing or empty asset: $f"
               exit 1
             fi
             case "$f" in
               *.svg) grep -q '<svg' "$f" || { echo "::error::Not a valid SVG: $f"; exit 1; } ;;
+              *.gif) head -c 3 "$f" | grep -q 'GIF' || { echo "::error::Not a valid GIF: $f"; exit 1; } ;;
             esac
             echo "OK: $f"
-          done
-
-          for g in assets/snake.light.gif assets/snake.dark.gif; do
-            head -c 3 "$g" | grep -q 'GIF' || { echo "::error::$g is not a valid GIF"; exit 1; }
           done
 
       - name: Commit generated assets
