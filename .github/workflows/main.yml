@@ -36,6 +36,11 @@ jobs:
       - name: Prepare directories
         run: mkdir -p assets profile-3d-contrib
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
