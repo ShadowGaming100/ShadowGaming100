@@ -10,6 +10,7 @@ on:
       - README.md
       - .github/workflows/main.yml
       - scripts/generate_assets.py
+      - scripts/generate_gifs.py
       - scripts/generate_all_time.py
       - scripts/generate_snake.py
       - scripts/verify_assets.py
@@ -49,10 +50,13 @@ jobs:
 
       - name: Download FreeHosts icon
         continue-on-error: true
-        run: curl -fsSL --max-time 30 -o assets/freehosts-icon.png https://freehosts.eu/Src/icons/icon.png
+        run: curl -fsSL --max-time 8 -o assets/freehosts-icon.png https://freehosts.eu/Src/icons/icon.png
 
       - name: Generate README artwork
         run: python scripts/generate_assets.py
+
+      - name: Generate smooth looping README GIFs
+        run: python scripts/generate_gifs.py
 
       - name: Generate GitHub statistics
         uses: seijikohara/profile-cards-action@v1
@@ -64,50 +68,17 @@ jobs:
           themes: light,dark
           commit: false
 
-      - name: Generate 2026 contribution graph
-        uses: yoshi389111/github-profile-3d-contrib@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ${{ env.PROFILE_USER }}
-          YEAR: "2026"
-
-      - name: Save 2026 contribution graph
-        run: |
-          set -euo pipefail
-          test -s profile-3d-contrib/profile-green-animate.svg
-          test -s profile-3d-contrib/profile-night-green.svg
-          cp profile-3d-contrib/profile-green-animate.svg profile-3d-contrib/profile-2026.svg
-          cp profile-3d-contrib/profile-night-green.svg profile-3d-contrib/profile-night-2026.svg
-
-      - name: Generate 2025 contribution graph
-        uses: yoshi389111/github-profile-3d-contrib@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ${{ env.PROFILE_USER }}
-          YEAR: "2025"
-
-      - name: Save 2025 contribution graph
-        run: |
-          set -euo pipefail
-          test -s profile-3d-contrib/profile-green-animate.svg
-          test -s profile-3d-contrib/profile-night-green.svg
-          cp profile-3d-contrib/profile-green-animate.svg profile-3d-contrib/profile-2025.svg
-          cp profile-3d-contrib/profile-night-green.svg profile-3d-contrib/profile-night-2025.svg
-
       - name: Generate complete all-time contribution graph
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ env.PROFILE_USER }}
         run: python scripts/generate_all_time.py
 
-      - name: Generate contribution snake
-        uses: Platane/snk@v3
-        with:
-          github_user_name: ${{ env.PROFILE_USER }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          outputs: |
-            assets/snake.dark.gif?palette=github-dark&color_snake=orange&color_background=#0d1117
-            assets/snake.light.gif?palette=github-light&color_snake=orange&color_background=#ffffff
+      - name: Generate smooth contribution snake GIFs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ env.PROFILE_USER }}
+        run: python scripts/generate_snake.py
 
       - name: Set up Deno
         uses: denoland/setup-deno@v2
@@ -144,7 +115,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets profile-3d-contrib
+          git add README.md assets profile-3d-contrib
 
           if git diff --cached --quiet; then
             echo "No generated assets changed."
