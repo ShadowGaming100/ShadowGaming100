@@ -10,7 +10,6 @@ on:
       - README.md
       - .github/workflows/main.yml
       - scripts/generate_assets.py
-      - scripts/generate_snake.py
 
 permissions:
   contents: write
@@ -66,12 +65,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ env.PROFILE_USER }}
 
-      # Custom 3D snake: reads the contribution calendar and draws it as raised
-      # bars that the snake eats. Falls back to an empty grid if the API call fails.
+      # The classic snake that eats your contributions (animated GIF, light + dark)
       - name: Generate contribution snake
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 scripts/generate_snake.py
+        uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ env.PROFILE_USER }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          outputs: |
+            assets/snake.dark.gif?palette=github-dark&color_snake=orange&color_background=#0d1117
+            assets/snake.light.gif?palette=github-light&color_snake=orange&color_background=#ffffff
 
       # Trophies come from a third-party script, so a failure here must not
       # break the rest of the run. The last good trophy files stay in place.
@@ -114,7 +116,7 @@ jobs:
             assets/overview.light.svg assets/overview.dark.svg
             assets/contributions.light.svg assets/contributions.dark.svg
             assets/languages.light.svg assets/languages.dark.svg
-            assets/snake.light.svg assets/snake.dark.svg
+            assets/snake.light.gif assets/snake.dark.gif
             assets/trophy.light.svg assets/trophy.dark.svg
             profile-3d-contrib/profile-green-animate.svg
             profile-3d-contrib/profile-night-green.svg
@@ -164,6 +166,10 @@ jobs:
               *.svg) grep -q '<svg' "$f" || { echo "::error::Not a valid SVG: $f"; exit 1; } ;;
             esac
             echo "OK: $f"
+          done
+
+          for g in assets/snake.light.gif assets/snake.dark.gif; do
+            head -c 3 "$g" | grep -q 'GIF' || { echo "::error::$g is not a valid GIF"; exit 1; }
           done
 
       - name: Commit generated assets
