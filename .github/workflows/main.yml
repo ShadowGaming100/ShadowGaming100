@@ -11,11 +11,12 @@ on:
       - .github/workflows/main.yml
       - scripts/generate_assets.py
       - scripts/generate_all_time.py
+      - scripts/generate_snake.py
+      - scripts/verify_assets.py
 
 permissions:
   contents: write
 
-# Never cancel a half-finished run; queue the next one instead.
 concurrency:
   group: generate-profile-assets
   cancel-in-progress: false
@@ -38,17 +39,21 @@ jobs:
       - name: Prepare directories
         run: mkdir -p assets profile-3d-contrib
 
-      # The real FreeHosts icon is downloaded here and embedded into the artwork,
-      # so the graphics never depend on the site being up when GitHub renders them.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install image validation dependency
+        run: python -m pip install --disable-pip-version-check Pillow
+
       - name: Download FreeHosts icon
         continue-on-error: true
         run: curl -fsSL --max-time 30 -o assets/freehosts-icon.png https://freehosts.eu/Src/icons/icon.png
 
-      # Hero, headers, buttons, cards, stack, terminal, footer (local SVG art)
       - name: Generate README artwork
-        run: python3 scripts/generate_assets.py
+        run: python scripts/generate_assets.py
 
-      # GitHub statistics cards (light + dark)
       - name: Generate GitHub statistics
         uses: seijikohara/profile-cards-action@v1
         with:
@@ -59,40 +64,42 @@ jobs:
           themes: light,dark
           commit: false
 
-      # 3D contribution graphics for exact calendar years.
-      # YEAR is supported by github-profile-3d-contrib; copy each run before
-      # the next one overwrites its standard output filenames.
-      - name: Generate 2026 contribution world
+      - name: Generate 2026 contribution graph
         uses: yoshi389111/github-profile-3d-contrib@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ env.PROFILE_USER }}
           YEAR: "2026"
 
-      - name: Save 2026 contribution world
+      - name: Save 2026 contribution graph
         run: |
+          set -euo pipefail
+          test -s profile-3d-contrib/profile-green-animate.svg
+          test -s profile-3d-contrib/profile-night-green.svg
           cp profile-3d-contrib/profile-green-animate.svg profile-3d-contrib/profile-2026.svg
           cp profile-3d-contrib/profile-night-green.svg profile-3d-contrib/profile-night-2026.svg
 
-      - name: Generate 2025 contribution world
+      - name: Generate 2025 contribution graph
         uses: yoshi389111/github-profile-3d-contrib@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ env.PROFILE_USER }}
           YEAR: "2025"
 
-      - name: Save 2025 contribution world
+      - name: Save 2025 contribution graph
         run: |
+          set -euo pipefail
+          test -s profile-3d-contrib/profile-green-animate.svg
+          test -s profile-3d-contrib/profile-night-green.svg
           cp profile-3d-contrib/profile-green-animate.svg profile-3d-contrib/profile-2025.svg
           cp profile-3d-contrib/profile-night-green.svg profile-3d-contrib/profile-night-2025.svg
 
-      - name: Generate all-time contribution world
+      - name: Generate complete all-time contribution graph
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ env.PROFILE_USER }}
-        run: python3 scripts/generate_all_time.py
+        run: python scripts/generate_all_time.py
 
-      # The classic snake that eats your contributions (animated GIF, light + dark)
       - name: Generate contribution snake
         uses: Platane/snk@v3
         with:
@@ -102,8 +109,6 @@ jobs:
             assets/snake.dark.gif?palette=github-dark&color_snake=orange&color_background=#0d1117
             assets/snake.light.gif?palette=github-light&color_snake=orange&color_background=#ffffff
 
-      # Trophies come from a third-party script, so a failure here must not
-      # break the rest of the run. The last good trophy files stay in place.
       - name: Set up Deno
         uses: denoland/setup-deno@v2
         with:
@@ -117,52 +122,28 @@ jobs:
           GITHUB_TOKEN2: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-
-          git clone --depth 1 \
-            https://github.com/ryo-ma/github-profile-trophy.git \
-            "$RUNNER_TEMP/trophy"
+          git clone --depth 1 https://github.com/ryo-ma/github-profile-trophy.git "$RUNNER_TEMP/trophy"
           cd "$RUNNER_TEMP/trophy"
 
           render() {
             local theme="$1" out="$2"
-            deno run --allow-net --allow-env --allow-read --allow-write \
-              ./render_svg.ts "$PROFILE_USER" "$RUNNER_TEMP/$out" "$theme"
+            deno run --allow-net --allow-env --allow-read --allow-write ./render_svg.ts "$PROFILE_USER" "$RUNNER_TEMP/$out" "$theme"
             grep -q '<svg' "$RUNNER_TEMP/$out"
             cp "$RUNNER_TEMP/$out" "$GITHUB_WORKSPACE/assets/$out"
           }
 
-          render darkhub  trophy.dark.svg
-          render default  trophy.light.svg
+          render darkhub trophy.dark.svg
+          render default trophy.light.svg
 
-      - name: Verify generated assets
+      - name: Validate all README image references
+        run: python scripts/verify_assets.py
+
+      - name: Commit and push generated assets
         shell: bash
         run: |
           set -euo pipefail
-
-          # every local image the README points to must exist and be valid
-          mapfile -t files < <(grep -oE '\./(assets|profile-3d-contrib)/[^" )]+' README.md | sed 's#^\./##' | sort -u)
-          [[ ${#files[@]} -gt 0 ]] || { echo "::error::No local images found in README"; exit 1; }
-
-          for f in "${files[@]}"; do
-            if [[ ! -s "$f" ]]; then
-              echo "::error::Missing or empty asset: $f"
-              exit 1
-            fi
-            case "$f" in
-              *.svg) grep -q '<svg' "$f" || { echo "::error::Not a valid SVG: $f"; exit 1; } ;;
-              *.gif) head -c 3 "$f" | grep -q 'GIF' || { echo "::error::Not a valid GIF: $f"; exit 1; } ;;
-            esac
-            echo "OK: $f"
-          done
-
-      - name: Commit generated assets
-        shell: bash
-        run: |
-          set -euo pipefail
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add assets profile-3d-contrib
 
           if git diff --cached --quiet; then
