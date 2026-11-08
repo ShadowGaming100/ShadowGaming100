@@ -176,8 +176,30 @@ def terminal(W, rows):
     return "\n".join(o)
 
 # ------------------------------------------------------------ TECH STACK (one tile per technology so they wrap on phones)
-TECH = [("js", "JS", "JavaScript", "Language", "#e8c500", "#111"), ("node", "NODE", "Node.js", "Runtime", "#3f9b3f", "#fff"), ("djs", "DJS", "Discord.js", "Bots", "#5865f2", "#fff"),
-        ("express", "EX", "Express", "Server", "#7b818c", "#fff"), ("next", "NX", "Next.js", "Web apps", "#24292f", "#fff"), ("pg", "PG", "PostgreSQL", "Database", "#3b7ab8", "#fff"), ("cf", "CF", "Cloudflare", "Edge", "#f38020", "#fff")]
+TECH = [
+    # Languages
+    ("js", "JS", "JavaScript", "Language", "#e8c500", "#111"),
+    ("ts", "TS", "TypeScript", "Language", "#3178c6", "#fff"),
+    ("py", "PY", "Python", "Language", "#3776ab", "#fff"),
+    ("html", "HTML", "HTML", "Markup", "#e34f26", "#fff"),
+    ("css", "CSS", "CSS", "Styles", "#1572b6", "#fff"),
+    # Runtime and frameworks
+    ("node", "NODE", "Node.js", "Runtime", "#3f9b3f", "#fff"),
+    ("djs", "DJS", "Discord.js", "Bots", "#5865f2", "#fff"),
+    ("express", "EX", "Express", "Server", "#7b818c", "#fff"),
+    ("next", "NX", "Next.js", "Web apps", "#24292f", "#fff"),
+    # Databases
+    ("pg", "PG", "PostgreSQL", "Database", "#3b7ab8", "#fff"),
+    ("mysql", "SQL", "MySQL", "Database", "#00758f", "#fff"),
+    ("mongo", "MDB", "MongoDB", "Database", "#47a248", "#fff"),
+    # Infrastructure
+    ("cf", "CF", "Cloudflare", "Infrastructure", "#f38020", "#fff"),
+    # Tools
+    ("git", "GIT", "Git", "Tool", "#f05032", "#fff"),
+    ("github", "GH", "GitHub", "Platform", "#6e7681", "#fff"),
+    ("gha", "GHA", "GitHub Actions", "Automation", "#2088ff", "#fff"),
+]
+
 def tile(t, i):
     c = P[t]; key, lab, name, cat, col, tc = TECH[i]; W, H = 140, 190; d = 3.6 + (i % 3)*.5; b = i*.55; s = 40
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="{name}: {cat}">']
