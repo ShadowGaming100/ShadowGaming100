@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 495 250" width="495" height="250" role="img" aria-label="Developer: Nemethic">
+<rect x="1" y="1" width="493" height="248" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" dur="3.8s" begin="-0s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" keyTimes="0;.5;1"/><polygon points="82,78 120.104,100.0 82,122 43.896,100.0" fill="#6da7f9"/><polygon points="43.896,100.0 82,122 82,166 43.896,144.0" fill="#2f81f7"/><polygon points="82,122 120.104,100.0 120.104,144.0 82,166" fill="#1d5099"/><text transform="matrix(0.866,0.5,0,1,43.90,100.00)" x="22.00" y="29.92" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-weight="800" font-size="16.0" fill="#fff">&lt;/&gt;</text></g>
+<text x="170" y="62" font-family="-apple-system,'Segoe UI',system-ui,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="20" font-weight="600" fill="#2f81f7">Developer</text>
+<text x="170" y="116" font-family="-apple-system,'Segoe UI',system-ui,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="48" font-weight="700" fill="#e6edf3">Nemethic</text>
+<text x="170" y="152" font-family="-apple-system,'Segoe UI',system-ui,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="22" fill="#8b949e">Developer at Nemethic.</text>
+<text x="170" y="182" font-family="-apple-system,'Segoe UI',system-ui,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="22" fill="#8b949e">JavaScript · Node.js</text>
+<text x="170" y="212" font-family="-apple-system,'Segoe UI',system-ui,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="22" fill="#8b949e">PostgreSQL</text>
+</svg>
