@@ -107,12 +107,7 @@ jobs:
           find assets -maxdepth 1 -type f -name '*.gif' -print0 | xargs -0 -r git add -f --
 
           # Fail the workflow before committing if any README GIF was not generated.
-          for gif in assets/hero.dark.gif assets/hero.light.gif \\
-                     assets/typing.dark.gif assets/typing.light.gif \\
-                     assets/terminal.gif assets/featured.dark.gif \\
-                     assets/featured.light.gif assets/snake.dark.gif \\
-                     assets/snake.light.gif; do
-            test -s "$gif" || { echo "::error::Missing generated GIF: $gif"; exit 1; }
+          for gif in assets/hero.dark.gif assets/hero.light.gif assets/typing.dark.gif assets/typing.light.gif assets/terminal.gif assets/featured.dark.gif assets/featured.light.gif assets/snake.dark.gif assets/snake.light.gif; do            test -s "$gif" || { echo "::error::Missing generated GIF: $gif"; exit 1; }
             file "$gif"
             git ls-files --error-unmatch "$gif" >/dev/null 2>&1 || git add -f -- "$gif"
           done
