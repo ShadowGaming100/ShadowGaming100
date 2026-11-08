@@ -67,39 +67,31 @@
 </div>
 
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/stack/js.dark.svg" />
-    <img src="./assets/stack/js.light.svg" width="112" alt="JavaScript" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/stack/node.dark.svg" />
-    <img src="./assets/stack/node.light.svg" width="112" alt="Node.js" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/stack/djs.dark.svg" />
-    <img src="./assets/stack/djs.light.svg" width="112" alt="Discord.js" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/stack/express.dark.svg" />
-    <img src="./assets/stack/express.light.svg" width="112" alt="Express" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/stack/next.dark.svg" />
-    <img src="./assets/stack/next.light.svg" width="112" alt="Next.js" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/stack/pg.dark.svg" />
-    <img src="./assets/stack/pg.light.svg" width="112" alt="PostgreSQL" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/stack/cf.dark.svg" />
-    <img src="./assets/stack/cf.light.svg" width="112" alt="Cloudflare" />
-  </picture>
-  <p>Day to day: JavaScript, Node.js and PostgreSQL.</p>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=js,nodejs,discordjs,express,nextjs,postgres,cloudflare&theme=dark&perline=7" />
-    <img src="https://skillicons.dev/icons?i=js,nodejs,discordjs,express,nextjs,postgres,cloudflare&theme=light&perline=7" width="420" alt="Logos: JavaScript, Node.js, Discord.js, Express, Next.js, PostgreSQL, Cloudflare" />
-  </picture>
+  <p><strong>Languages</strong></p>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/js.dark.svg" /><img src="./assets/stack/js.light.svg" width="112" alt="JavaScript" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/ts.dark.svg" /><img src="./assets/stack/ts.light.svg" width="112" alt="TypeScript" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/py.dark.svg" /><img src="./assets/stack/py.light.svg" width="112" alt="Python" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/html.dark.svg" /><img src="./assets/stack/html.light.svg" width="112" alt="HTML" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/css.dark.svg" /><img src="./assets/stack/css.light.svg" width="112" alt="CSS" /></picture>
+
+  <p><strong>Runtime &amp; Frameworks</strong></p>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/node.dark.svg" /><img src="./assets/stack/node.light.svg" width="112" alt="Node.js" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/djs.dark.svg" /><img src="./assets/stack/djs.light.svg" width="112" alt="Discord.js" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/express.dark.svg" /><img src="./assets/stack/express.light.svg" width="112" alt="Express" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/next.dark.svg" /><img src="./assets/stack/next.light.svg" width="112" alt="Next.js" /></picture>
+
+  <p><strong>Databases</strong></p>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/pg.dark.svg" /><img src="./assets/stack/pg.light.svg" width="112" alt="PostgreSQL" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/mysql.dark.svg" /><img src="./assets/stack/mysql.light.svg" width="112" alt="MySQL" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/mongo.dark.svg" /><img src="./assets/stack/mongo.light.svg" width="112" alt="MongoDB" /></picture>
+
+  <p><strong>Infrastructure</strong></p>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/cf.dark.svg" /><img src="./assets/stack/cf.light.svg" width="112" alt="Cloudflare" /></picture>
+
+  <p><strong>Tools</strong></p>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/git.dark.svg" /><img src="./assets/stack/git.light.svg" width="112" alt="Git" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/github.dark.svg" /><img src="./assets/stack/github.light.svg" width="112" alt="GitHub" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/gha.dark.svg" /><img src="./assets/stack/gha.light.svg" width="112" alt="GitHub Actions" /></picture>
 </div>
 
 <br/>
@@ -157,9 +149,22 @@
 </div>
 
 <div align="center">
+  <p><strong>2026 · This year</strong></p>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-green.svg" />
-    <img src="./profile-3d-contrib/profile-green-animate.svg" width="100%" alt="Animated 3D GitHub contribution graph" />
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2026.svg" />
+    <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for 2026" />
+  </picture>
+
+  <p><strong>2025 · Last year</strong></p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2025.svg" />
+    <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for 2025" />
+  </picture>
+
+  <p><strong>All-time · Entire contribution history</strong></p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-time.svg" />
+    <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="3D GitHub contribution history across all years" />
   </picture>
 </div>
 
