@@ -671,6 +671,198 @@ def _run_animated_gifs():
     if __name__ == "__main__":
         main()
 
+def _run_3d_worlds():
+    """Render 3D contribution worlds 1-3 (current year, last year, all years)."""
+    import datetime as dt
+    import json
+    import os
+    import shutil
+    import subprocess
+    import tempfile
+    import urllib.request
+    from pathlib import Path
+
+    ROOT = Path(__file__).resolve().parents[1]
+    OUT = ROOT / "profile-3d-contrib"
+    TOOL_URL = "https://github.com/yoshi389111/github-profile-3d-contrib.git"
+    TOOL_SHA = "e235d118909be71eb7edb05482a3de4e76156df3"
+    # Adds FROM_YEAR/TO_YEAR (stitches several calendar years into one board,
+    # since GitHub returns one year per query) and shrinks long boards to fit.
+    PATCH = r"""diff --git a/src/create-3d-contrib.ts b/src/create-3d-contrib.ts
+index a7a73ff..f2ac066 100644
+--- a/src/create-3d-contrib.ts
++++ b/src/create-3d-contrib.ts
+@@ -182,7 +182,9 @@ export const create3DContrib = (
+     const weekcount = Math.ceil(
+         (userInfo.contributionCalendar.length + firstDate.getUTCDay()) / 7.0,
+     );
+-    const dx = width / 64;
++    const dx = width / Math.max(64, weekcount + 10);
++    // Long multi-year boards use smaller cells; keep bar heights proportional.
++    const heightScale = Math.max(0.35, Math.min(1, (dx / (width / 64)) ** 0.5));
+     const dy = dx * Math.tan(ANGLE * ((2 * Math.PI) / 360));
+     const dxx = dx * 0.9;
+     const dyy = dy * 0.9;
+@@ -201,7 +203,8 @@ export const create3DContrib = (
+         const baseX = offsetX + (week - dayOfWeek) * dx;
+         const baseY = offsetY + (week + dayOfWeek) * dy;
+         // ref. https://github.com/yoshi389111/github-profile-3d-contrib/issues/27
+-        const calHeight = Math.log10(cal.contributionCount / 20 + 1) * 144 + 3;
++        const calHeight =
++            (Math.log10(cal.contributionCount / 20 + 1) * 144) * heightScale + 3;
+         const contribLevel = cal.contributionLevel;
+ 
+         const isAnimate = settings.growingAnimation || isForcedAnimation;
+diff --git a/src/github-graphql.ts b/src/github-graphql.ts
+index df50bf6..5fb0d9a 100644
+--- a/src/github-graphql.ts
++++ b/src/github-graphql.ts
+@@ -209,3 +209,55 @@ export const fetchData = async (
+     }
+     return res1;
+ };
++
++/**
++ * Fetch several calendar years and stitch them into one response.
++ * GitHub only allows a one-year window per contributionsCollection query.
++ */
++export const fetchYearRange = async (
++    token: string,
++    userName: string,
++    maxRepos: number,
++    fromYear: number,
++    toYear: number,
++): Promise<ResponseType> => {
++    let merged: ResponseType | null = null;
++    const seen = new Set<string>();
++    for (let year = fromYear; year <= toYear; year++) {
++        const res = await fetchData(token, userName, maxRepos, year);
++        if (!res.data) {
++            return res;
++        }
++        const cur = res.data.user.contributionsCollection;
++        if (merged === null || !merged.data) {
++            merged = res;
++            merged.data!.user.contributionsCollection.contributionCalendar.weeks.forEach(
++                (w) => w.contributionDays.forEach((d) => seen.add(d.date)),
++            );
++            continue;
++        }
++        const into = merged.data.user.contributionsCollection;
++        const cal = into.contributionCalendar;
++        cal.totalContributions += cur.contributionCalendar.totalContributions;
++        for (const week of cur.contributionCalendar.weeks) {
++            const days = week.contributionDays.filter((d) => !seen.has(d.date));
++            days.forEach((d) => seen.add(d.date));
++            if (days.length > 0) {
++                cal.weeks.push({ contributionDays: days });
++            }
++        }
++        into.commitContributionsByRepository.push(
++            ...cur.commitContributionsByRepository,
++        );
++        into.totalCommitContributions += cur.totalCommitContributions;
++        into.totalIssueContributions += cur.totalIssueContributions;
++        into.totalPullRequestContributions += cur.totalPullRequestContributions;
++        into.totalPullRequestReviewContributions +=
++            cur.totalPullRequestReviewContributions;
++        into.totalRepositoryContributions += cur.totalRepositoryContributions;
++    }
++    if (merged === null) {
++        throw new Error('empty year range');
++    }
++    return merged;
++};
+diff --git a/src/index.ts b/src/index.ts
+index 93bd6ea..328c8df 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -35,12 +35,20 @@ export const main = async (): Promise<void> => {
+             return;
+         }
+ 
+-        const response = await client.fetchData(
+-            token,
+-            userName,
+-            maxRepos,
+-            year,
+-        );
++        const fromYear = process.env.FROM_YEAR
++            ? Number(process.env.FROM_YEAR)
++            : null;
++        const toYear = process.env.TO_YEAR ? Number(process.env.TO_YEAR) : null;
++        const response =
++            fromYear && toYear
++                ? await client.fetchYearRange(
++                      token,
++                      userName,
++                      maxRepos,
++                      fromYear,
++                      toYear,
++                  )
++                : await client.fetchData(token, userName, maxRepos, year);
+         const userInfo = aggregate.aggregateUserInfo(response);
+ 
+         if (process.env.SETTING_JSON) {
+"""
+
+    token = os.environ.get("GITHUB_TOKEN")
+    username = os.environ.get("USERNAME", "ShadowGaming100")
+    if not token:
+        raise RuntimeError("GITHUB_TOKEN is required")
+
+    def sh(cmd, cwd=None, **kw):
+        subprocess.run(cmd, cwd=cwd, check=True, **kw)
+
+    work = Path(tempfile.mkdtemp(prefix="3d-contrib-"))
+    tool = work / "tool"
+    try:
+        sh(["git", "clone", "--quiet", TOOL_URL, str(tool)])
+        sh(["git", "checkout", "--quiet", TOOL_SHA], cwd=tool)
+        sh(["git", "apply", "-"], cwd=tool, input=PATCH.encode())
+        sh(["npm", "ci", "--no-audit", "--no-fund"], cwd=tool)
+        shutil.rmtree(tool / "dist0", ignore_errors=True)
+        sh(["npx", "tsc"], cwd=tool)
+
+        OUT.mkdir(parents=True, exist_ok=True)
+
+        def render(name, **extra):
+            env = {k: v for k, v in os.environ.items()
+                   if k not in ("YEAR", "FROM_YEAR", "TO_YEAR")}
+            env.update(GITHUB_TOKEN=token, USERNAME=username, MAX_REPOS="100")
+            env.update({k: str(v) for k, v in extra.items()})
+            sh(["node", str(tool / "dist0" / "src" / "index.js")], cwd=ROOT, env=env)
+            for src, dst in (("profile-green.svg", f"profile-{name}.svg"),
+                             ("profile-night-green.svg", f"profile-night-{name}.svg")):
+                data = (OUT / src).read_text(encoding="utf-8")
+                if "<svg" not in data:
+                    raise RuntimeError(f"3D tool produced no SVG for {dst}")
+                (OUT / dst).write_text(data, encoding="utf-8")
+
+        req = urllib.request.Request(
+            f"https://api.github.com/users/{username}",
+            headers={"Authorization": f"Bearer {token}",
+                     "User-Agent": "ShadowGaming100-profile-assets"},
+        )
+        with urllib.request.urlopen(req, timeout=45) as response:
+            first_year = int(json.loads(response.read())["created_at"][:4])
+        current_year = dt.datetime.now(dt.timezone.utc).year
+
+        render(str(current_year), YEAR=current_year)
+        render(str(current_year - 1), YEAR=current_year - 1)
+        render("all-years", FROM_YEAR=first_year, TO_YEAR=current_year)
+
+        # Drop the tool's other colour variants; only the files above are used.
+        for pattern in ("profile-green.svg", "profile-green-animate.svg",
+                        "profile-season*.svg", "profile-south-season*.svg",
+                        "profile-night-view.svg", "profile-night-green.svg",
+                        "profile-night-rainbow.svg", "profile-gitblock.svg"):
+            for f in OUT.glob(pattern):
+                f.unlink()
+        print(f"Generated 3D worlds: {current_year}, {current_year - 1}, all-years ({first_year}-{current_year}).")
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
 def _run_all_time_graphs():
     """Run the all time graphs stage."""
     """Generate a 3D contribution calendar covering the account's full available history."""
@@ -886,50 +1078,21 @@ def _run_all_time_graphs():
         OUT.mkdir(parents=True, exist_ok=True)
         calendars = {year: calendar for year, calendar in years}
 
-        # 1. Current calendar year and 2. previous calendar year.
-        for year in (current_year, current_year - 1):
-            calendar = calendars.get(year)
-            if calendar is None:
-                continue
-            date_range = (
-                f"January 1 – {through.date().isoformat()}"
-                if year == current_year
-                else "January 1 – December 31"
-            )
-            subtitle = (
-                f"{calendar.get('totalContributions', 0):,} contributions · "
-                f"{date_range}"
-            )
-            for theme, prefix in (("light", "profile"), ("dark", "profile-night")):
-                (OUT / f"{prefix}-{year}.svg").write_text(
-                    render([(year, calendar)], theme, through,
-                           f"{year} CONTRIBUTIONS", subtitle),
-                    encoding="utf-8",
-                )
-
+        # Images 1-3 (current year, last year, all years) are rendered by the
+        # "Generate 3D contribution worlds" workflow step with the
+        # github-profile-3d-contrib tool (3D board + radar + language donut).
+        # This stage only renders image 4, the all-time stacked history.
         total = sum(
             calendar.get("totalContributions", 0)
             for _year, calendar in years
         )
         span = f"{first_year}–{current_year} · {total:,} contributions"
-
-        # 3. All Years: every available calendar year combined in one image.
-        # 4. All Time: the complete available history, from account creation
-        #    through today. It uses the same complete yearly data, but has its
-        #    own explicitly labelled output for the README.
-        combined_outputs = (
-            ("all-years", "ALL YEARS — CALENDAR CONTRIBUTIONS"),
-            ("all-time", "ALL-TIME CONTRIBUTION HISTORY"),
-        )
-        for suffix, title in combined_outputs:
-            subtitle = (
-                f"{span} · through {through.date().isoformat()}"
+        subtitle = f"{span} · through {through.date().isoformat()}"
+        for theme, prefix in (("light", "profile"), ("dark", "profile-night")):
+            (OUT / f"{prefix}-all-time.svg").write_text(
+                render(years, theme, through, "ALL-TIME CONTRIBUTION HISTORY", subtitle),
+                encoding="utf-8",
             )
-            for theme, prefix in (("light", "profile"), ("dark", "profile-night")):
-                (OUT / f"{prefix}-{suffix}.svg").write_text(
-                    render(years, theme, through, title, subtitle),
-                    encoding="utf-8",
-                )
 
         # Remove obsolete individual-year SVGs; retain only current/previous.
         keep_years = {current_year, current_year - 1}
@@ -945,39 +1108,30 @@ def _run_all_time_graphs():
             start_marker = "<!-- CONTRIBUTION-YEARS:START -->"
             end_marker = "<!-- CONTRIBUTION-YEARS:END -->"
             if start_marker in content and end_marker in content:
-                entries = [
-                    start_marker,
+                def picture(name, alt):
+                    return [
+                        "  <picture>",
+                        f'    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-{name}.svg" />',
+                        f'    <img src="./profile-3d-contrib/profile-{name}.svg" width="100%" alt="{alt}" />',
+                        "  </picture>",
+                        "",
+                    ]
+
+                entries = [start_marker, ""]
+                for year in (current_year, current_year - 1):
+                    entries += [
+                        f"  ### {year} — January 1 to December 31, {year}",
+                        "",
+                    ] + picture(f"{year}", f"3D GitHub contribution graph for calendar year {year}")
+                entries += [
+                    f"  ### All years — January 1, {first_year} to December 31, {current_year}",
                     "",
-                    f"  **Current Year — {current_year} Calendar Contributions**",
-                    "",
-                    "  <picture>",
-                    f'    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-{current_year}.svg" />',
-                    f'    <img src="./profile-3d-contrib/profile-{current_year}.svg" width="100%" alt="3D GitHub contribution graph for calendar year {current_year}" />',
-                    "  </picture>",
-                    "",
-                    f"  **Last Year — {current_year - 1} Calendar Contributions**",
-                    "",
-                    "  <picture>",
-                    f'    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-{current_year - 1}.svg" />',
-                    f'    <img src="./profile-3d-contrib/profile-{current_year - 1}.svg" width="100%" alt="3D GitHub contribution graph for calendar year {current_year - 1}" />',
-                    "  </picture>",
-                    "",
-                    "  **All Years — Combined Calendar Contributions**",
-                    "",
-                    "  <picture>",
-                    '    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-years.svg" />',
-                    '    <img src="./profile-3d-contrib/profile-all-years.svg" width="100%" alt="All available calendar years combined into one 3D contribution image" />',
-                    "  </picture>",
-                    "",
+                ] + picture("all-years", "All available calendar years combined into one 3D contribution graph")
+                entries += [
                     "  **All Time — Complete Available Contribution History**",
                     "",
-                    "  <picture>",
-                    '    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-time.svg" />',
-                    '    <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="Complete available 3D GitHub contribution history through today" />',
-                    "  </picture>",
-                    "",
-                    end_marker,
-                ]
+                ] + picture("all-time", "Complete available 3D GitHub contribution history through today")
+                entries.append(end_marker)
                 before, remainder = content.split(start_marker, 1)
                 _old, after = remainder.split(end_marker, 1)
                 readme.write_text(
@@ -1338,6 +1492,7 @@ def _run_asset_validation():
 def main():
     """Run all generation stages and validate the final README assets."""
     _run_artwork()
+    _run_3d_worlds()
     _run_all_time_graphs()
     _run_contribution_snake()
     _run_animated_gifs()
