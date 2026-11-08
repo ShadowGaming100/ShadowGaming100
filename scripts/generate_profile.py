@@ -2,7 +2,7 @@
 """Generate and validate every ShadowGaming100 profile asset in one script."""
 
 from __future__ import annotations
-
+import re
 def _run_artwork():
     """Run the artwork stage."""
     import os, math, base64, html, re, urllib.request, urllib.error
