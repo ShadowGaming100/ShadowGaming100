@@ -29,17 +29,11 @@ Currently building FreeHosts v2.
 Always excited to learn new things.
 
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/typing.dark.gif" />
-    <img src="./assets/typing.light.gif" width="100%" alt="Animated developer status messages" />
-  </picture>
+  <img src="./assets/typing.dark.gif" width="100%" alt="Animated developer status messages" />
 </div>
 
 <div align="center">
-  <picture>
-    <source media="(max-width: 600px)" srcset="./assets/terminal.gif" />
-    <img src="./assets/terminal.gif" width="100%" alt="Animated terminal showing current project and interests" />
-  </picture>
+  <img src="./assets/terminal.gif" width="100%" alt="Animated terminal showing current project and interests" />
 </div>
 
 <br/>
@@ -146,56 +140,35 @@ Always excited to learn new things.
 
   <!-- CONTRIBUTION-YEARS:START -->
 
-  **2026 — Calendar year contributions**
+  **Current Year — 2026**
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2026.svg" />
-    <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2026" />
+    <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution calendar for 2026" />
   </picture>
 
-  **2025 — Calendar year contributions**
+  **Previous Year — 2025**
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2025.svg" />
-    <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2025" />
+    <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution calendar for 2025" />
   </picture>
 
-  **2024 — Calendar year contributions**
+  **All Years — Combined Calendar Contributions**
 
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2024.svg" />
-    <img src="./profile-3d-contrib/profile-2024.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2024" />
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-years.svg" />
+    <img src="./profile-3d-contrib/profile-all-years.svg" width="100%" alt="All available calendar-year contribution calendars combined into one image" />
   </picture>
 
-  **2023 — Calendar year contributions**
-
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2023.svg" />
-    <img src="./profile-3d-contrib/profile-2023.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2023" />
-  </picture>
-
-  **2022 — Calendar year contributions**
-
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2022.svg" />
-    <img src="./profile-3d-contrib/profile-2022.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2022" />
-  </picture>
-
-  **2021 — Calendar year contributions**
-
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2021.svg" />
-    <img src="./profile-3d-contrib/profile-2021.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2021" />
-  </picture>
-
-<!-- CONTRIBUTION-YEARS:END -->
-
-  **All Time — Complete available contribution history**
+  **All Time — Complete Contribution History**
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-time.svg" />
-    <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="3D GitHub contribution graph from the beginning of the available contribution history through today" />
+    <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="Continuous 3D GitHub contribution history from the first available date through today" />
   </picture>
+
+  <!-- CONTRIBUTION-YEARS:END -->
 </div>
 
 <br/>
@@ -210,10 +183,7 @@ Always excited to learn new things.
 </div>
 
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/snake.dark.gif" />
-    <img src="./assets/snake.light.gif" width="100%" alt="Snake animation of GitHub contributions" />
-  </picture>
+  <img src="./assets/snake.dark.gif" width="100%" alt="Animated snake eating GitHub contribution cells" />
 </div>
 
 <br/>
