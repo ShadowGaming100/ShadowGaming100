@@ -422,6 +422,7 @@ def _run_animated_gifs():
     """Create lightweight, smoothly animated GIF versions of README motion artwork."""
 
     import math
+    import re
     from pathlib import Path
     from PIL import Image, ImageDraw, ImageFont
 
@@ -883,54 +884,112 @@ def _run_all_time_graphs():
             years.append((year, fetch_year(token, username, year, through)))
 
         OUT.mkdir(parents=True, exist_ok=True)
+        calendars = {year: calendar for year, calendar in years}
 
-        # Every calendar year gets the same isometric design and both themes.
-        for year, calendar in years:
-            subtitle = f"{calendar.get('totalContributions', 0):,} contributions · January 1 – {through.date().isoformat() if year == current_year else 'December 31'}"
-            (OUT / f"profile-{year}.svg").write_text(
-                render([(year, calendar)], "light", through, f"{year} CONTRIBUTIONS", subtitle),
-                encoding="utf-8",
+        # 1. Current calendar year and 2. previous calendar year.
+        for year in (current_year, current_year - 1):
+            calendar = calendars.get(year)
+            if calendar is None:
+                continue
+            date_range = (
+                f"January 1 – {through.date().isoformat()}"
+                if year == current_year
+                else "January 1 – December 31"
             )
-            (OUT / f"profile-night-{year}.svg").write_text(
-                render([(year, calendar)], "dark", through, f"{year} CONTRIBUTIONS", subtitle),
-                encoding="utf-8",
+            subtitle = (
+                f"{calendar.get('totalContributions', 0):,} contributions · "
+                f"{date_range}"
             )
+            for theme, prefix in (("light", "profile"), ("dark", "profile-night")):
+                (OUT / f"{prefix}-{year}.svg").write_text(
+                    render([(year, calendar)], theme, through,
+                           f"{year} CONTRIBUTIONS", subtitle),
+                    encoding="utf-8",
+                )
 
-        (OUT / "profile-all-time.svg").write_text(
-            render(years, "light", through), encoding="utf-8"
+        total = sum(
+            calendar.get("totalContributions", 0)
+            for _year, calendar in years
         )
-        (OUT / "profile-night-all-time.svg").write_text(
-            render(years, "dark", through), encoding="utf-8"
-        )
+        span = f"{first_year}–{current_year} · {total:,} contributions"
 
-        # Keep the README's yearly list synchronized with the years generated above.
+        # 3. All Years: every available calendar year combined in one image.
+        # 4. All Time: the complete available history, from account creation
+        #    through today. It uses the same complete yearly data, but has its
+        #    own explicitly labelled output for the README.
+        combined_outputs = (
+            ("all-years", "ALL YEARS — CALENDAR CONTRIBUTIONS"),
+            ("all-time", "ALL-TIME CONTRIBUTION HISTORY"),
+        )
+        for suffix, title in combined_outputs:
+            subtitle = (
+                f"{span} · through {through.date().isoformat()}"
+            )
+            for theme, prefix in (("light", "profile"), ("dark", "profile-night")):
+                (OUT / f"{prefix}-{suffix}.svg").write_text(
+                    render(years, theme, through, title, subtitle),
+                    encoding="utf-8",
+                )
+
+        # Remove obsolete individual-year SVGs; retain only current/previous.
+        keep_years = {current_year, current_year - 1}
+        for old_svg in OUT.glob("profile-*.svg"):
+            match = re.fullmatch(r"profile-(?:night-)?(\d{4})\.svg", old_svg.name)
+            if match and int(match.group(1)) not in keep_years:
+                old_svg.unlink(missing_ok=True)
+
+        # Keep exactly four contribution sections in the README.
         readme = ROOT / "README.md"
         if readme.is_file():
             content = readme.read_text(encoding="utf-8")
             start_marker = "<!-- CONTRIBUTION-YEARS:START -->"
             end_marker = "<!-- CONTRIBUTION-YEARS:END -->"
             if start_marker in content and end_marker in content:
-                entries = [start_marker, ""]
-                for year, _calendar in reversed(years):
-                    entries.extend([
-                        f"  **{year} — Calendar year contributions**",
-                        "",
-                        "  <picture>",
-                        f'    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-{year}.svg" />',
-                        f'    <img src="./profile-3d-contrib/profile-{year}.svg" width="100%" alt="3D GitHub contribution graph for calendar year {year}" />',
-                        "  </picture>",
-                        "",
-                    ])
-                entries.append(end_marker)
+                entries = [
+                    start_marker,
+                    "",
+                    f"  **Current Year — {current_year} Calendar Contributions**",
+                    "",
+                    "  <picture>",
+                    f'    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-{current_year}.svg" />',
+                    f'    <img src="./profile-3d-contrib/profile-{current_year}.svg" width="100%" alt="3D GitHub contribution graph for calendar year {current_year}" />',
+                    "  </picture>",
+                    "",
+                    f"  **Last Year — {current_year - 1} Calendar Contributions**",
+                    "",
+                    "  <picture>",
+                    f'    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-{current_year - 1}.svg" />',
+                    f'    <img src="./profile-3d-contrib/profile-{current_year - 1}.svg" width="100%" alt="3D GitHub contribution graph for calendar year {current_year - 1}" />',
+                    "  </picture>",
+                    "",
+                    "  **All Years — Combined Calendar Contributions**",
+                    "",
+                    "  <picture>",
+                    '    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-years.svg" />',
+                    '    <img src="./profile-3d-contrib/profile-all-years.svg" width="100%" alt="All available calendar years combined into one 3D contribution image" />',
+                    "  </picture>",
+                    "",
+                    "  **All Time — Complete Available Contribution History**",
+                    "",
+                    "  <picture>",
+                    '    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-time.svg" />',
+                    '    <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="Complete available 3D GitHub contribution history through today" />',
+                    "  </picture>",
+                    "",
+                    end_marker,
+                ]
                 before, remainder = content.split(start_marker, 1)
                 _old, after = remainder.split(end_marker, 1)
-                readme.write_text(before + "\n".join(entries) + after, encoding="utf-8")
+                readme.write_text(
+                    before + "\n".join(entries) + after,
+                    encoding="utf-8",
+                )
 
         print(
-            f"Generated matching light/dark yearly contribution graphs and all-time graph: "
-            f"{first_year}–{current_year} ({len(years)} calendar years)."
+            f"Generated exactly four contribution sections: {current_year}, "
+            f"{current_year - 1}, All Years, and All Time "
+            f"({first_year}–{current_year}; {total:,} contributions)."
         )
-
 
     if __name__ == "__main__":
         try:
@@ -1279,9 +1338,9 @@ def _run_asset_validation():
 def main():
     """Run all generation stages and validate the final README assets."""
     _run_artwork()
-    _run_animated_gifs()
     _run_all_time_graphs()
     _run_contribution_snake()
+    _run_animated_gifs()
     _run_asset_validation()
 
 
