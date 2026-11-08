@@ -218,26 +218,69 @@ _ICON_PATHS = {}
 
 
 def simple_icon_path(key):
+    """Return a validated Simple Icons path, with independent CDN fallbacks.
+
+    The jsDelivr and unpkg URLs use the official simple-icons package and a
+    pinned major version. The Simple Icons colour CDN is retained as a final
+    fallback, but a 404 from that service must not abort the whole build.
+    """
     if key in _ICON_PATHS:
         return _ICON_PATHS[key]
+
     slug, brand = SIMPLE_ICONS[key]
-    url = f"https://cdn.simpleicons.org/{slug}/{brand}"
-    last_error = None
-    for attempt in range(3):
-        try:
-            request = urllib.request.Request(
-                url, headers={"User-Agent": "ShadowGaming100-profile-assets"}
-            )
-            with urllib.request.urlopen(request, timeout=8) as response:
-                source = response.read(120_000).decode("utf-8")
-            paths = re.findall(r'<path\b[^>]*\bd="([^"]+)"[^>]*/?>', source)
-            if not paths:
-                raise RuntimeError(f"Simple Icons returned no SVG path for {key}")
-            _ICON_PATHS[key] = paths
-            return paths
-        except (OSError, UnicodeError, urllib.error.URLError, RuntimeError) as exc:
-            last_error = exc
-    raise RuntimeError(f"Unable to download the official {key} logo from Simple Icons") from last_error
+    urls = (
+        f"https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/{slug}.svg",
+        f"https://unpkg.com/simple-icons@v16/icons/{slug}.svg",
+        f"https://cdn.simpleicons.org/{slug}/{brand}",
+    )
+    errors = []
+
+    for url in urls:
+        # A missing icon on one CDN is not a reason to fail while another
+        # official mirror may still have it. Retry only transient failures.
+        for attempt in range(2):
+            try:
+                request = urllib.request.Request(
+                    url,
+                    headers={
+                        "User-Agent": "ShadowGaming100-profile-assets/1.0",
+                        "Accept": "image/svg+xml,text/plain,*/*",
+                    },
+                )
+                with urllib.request.urlopen(request, timeout=15) as response:
+                    source = response.read(250_000).decode("utf-8")
+
+                if "<svg" not in source.lower():
+                    raise RuntimeError(f"{url} did not return an SVG document")
+
+                paths = re.findall(
+                    r'<path\b[^>]*\bd\s*=\s*["\']([^"\']+)["\'][^>]*/?>',
+                    source,
+                    flags=re.IGNORECASE,
+                )
+                if not paths:
+                    raise RuntimeError(f"{url} returned an SVG without a path")
+
+                _ICON_PATHS[key] = paths
+                return paths
+
+            except urllib.error.HTTPError as exc:
+                errors.append(f"{url}: HTTP {exc.code}")
+                # 4xx responses are permanent for this URL; try the next CDN.
+                if 400 <= exc.code < 500 and exc.code != 429:
+                    break
+                if attempt == 1:
+                    break
+            except (OSError, UnicodeError, urllib.error.URLError, RuntimeError) as exc:
+                errors.append(f"{url}: {exc}")
+                if attempt == 1:
+                    break
+
+    detail = "; ".join(errors[-len(urls):])
+    raise RuntimeError(
+        f"Unable to download the official {key} ({slug}) logo from any configured CDN. "
+        f"Tried jsDelivr, unpkg, and Simple Icons CDN. {detail}"
+    )
 
 
 def tech_icon(theme, key, name, color, mark):
