@@ -8,12 +8,8 @@ on:
     branches: [master, main]
     paths:
       - README.md
+      - scripts/generate_profile.py
       - .github/workflows/main.yml
-      - scripts/generate_assets.py
-      - scripts/generate_gifs.py
-      - scripts/generate_all_time.py
-      - scripts/generate_snake.py
-      - scripts/verify_assets.py
 
 permissions:
   contents: write
@@ -52,11 +48,6 @@ jobs:
         continue-on-error: true
         run: curl -fsSL --max-time 8 -o assets/freehosts-icon.png https://freehosts.eu/Src/icons/icon.png
 
-      - name: Generate README artwork
-        run: python scripts/generate_assets.py
-
-      - name: Generate smooth looping README GIFs
-        run: python scripts/generate_gifs.py
 
       - name: Generate GitHub statistics
         uses: seijikohara/profile-cards-action@v1
@@ -68,17 +59,6 @@ jobs:
           themes: light,dark
           commit: false
 
-      - name: Generate complete all-time contribution graph
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ${{ env.PROFILE_USER }}
-        run: python scripts/generate_all_time.py
-
-      - name: Generate smooth contribution snake GIFs
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ${{ env.PROFILE_USER }}
-        run: python scripts/generate_snake.py
 
       - name: Set up Deno
         uses: denoland/setup-deno@v2
@@ -106,8 +86,12 @@ jobs:
           render darkhub trophy.dark.svg
           render default trophy.light.svg
 
-      - name: Validate all README image references
-        run: python scripts/verify_assets.py
+      - name: Generate and validate all profile assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ env.PROFILE_USER }}
+        run: python scripts/generate_profile.py
+
 
       - name: Commit and push generated assets
         shell: bash
