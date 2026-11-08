@@ -6,7 +6,7 @@
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/typing.dark.svg" />
-    <img src="./assets/typing.light.svg" width="720" alt="Building digital experiences. Turning ideas into code. Founder of FreeHosts. Developer at Nemethic." />
+    <img src="./assets/typing.light.svg" width="760" alt="Building digital experiences. Turning ideas into code. Founder of FreeHosts. Developer at Nemethic." />
   </picture>
 
   <br/>
@@ -17,6 +17,7 @@
       <img src="./assets/buttons/github.light.svg" height="52" alt="GitHub" />
     </picture>
   </a>
+  <a href="https://freehosts.eu"><img src="https://freehosts.eu/Src/icons/icon.png" height="52" width="52" alt="FreeHosts logo" /></a>
   <a href="https://freehosts.eu">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/freehosts.dark.svg" />
@@ -39,6 +40,8 @@
     <img src="./assets/headers/about.light.svg" width="100%" alt="About me" />
   </picture>
 </div>
+
+<p align="center">I run FreeHosts and write code at Nemethic. Most days that means JavaScript, Node.js and PostgreSQL.</p>
 
 <div align="center">
   <img src="./assets/terminal.svg" width="100%" alt="Terminal: ShadowGaming100, Founder at FreeHosts, Developer at Nemethic, JavaScript, Node.js and PostgreSQL" />
@@ -76,6 +79,11 @@
     <source media="(prefers-color-scheme: dark)" srcset="./assets/stack.dark.svg" />
     <img src="./assets/stack.light.svg" width="100%" alt="JavaScript, Node.js, Discord.js, Express, Next.js, PostgreSQL and Cloudflare" />
   </picture>
+  <br/>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=js,nodejs,discordjs,express,nextjs,postgres,cloudflare&theme=dark&perline=7" />
+    <img src="https://skillicons.dev/icons?i=js,nodejs,discordjs,express,nextjs,postgres,cloudflare&theme=light&perline=7" height="72" alt="Logos: JavaScript, Node.js, Discord.js, Express, Next.js, PostgreSQL, Cloudflare" />
+  </picture>
 </div>
 
 <br/>
@@ -88,6 +96,8 @@
 </div>
 
 <div align="center">
+  <a href="https://freehosts.eu"><img src="https://freehosts.eu/Src/icons/icon.png" height="72" width="72" alt="FreeHosts logo" /></a>
+  <br/>
   <a href="https://freehosts.eu">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/featured.dark.svg" />
@@ -148,7 +158,10 @@
 </div>
 
 <div align="center">
-  <img src="./assets/github-snake.gif" width="100%" alt="Animated GitHub contribution snake" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/snake.dark.svg" />
+    <img src="./assets/snake.light.svg" width="100%" alt="Snake eating my GitHub contributions" />
+  </picture>
 </div>
 
 <br/>
