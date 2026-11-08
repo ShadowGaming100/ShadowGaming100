@@ -1,19 +1,22 @@
+
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/hero.dark.svg" />
-    <img src="./assets/hero.light.svg" width="100%" alt="ShadowGaming100 | Developer, Builder, Founder" />
+    <img src="./assets/hero.light.svg" width="100%" alt="ShadowGaming100 | Founder and Developer" />
   </picture>
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/typing.dark.svg" />
-    <img src="./assets/typing.light.svg" width="760" alt="Building digital experiences. Turning ideas into code. Founder of FreeHosts. Developer at Nemethic." />
+    <img src="./assets/typing.light.svg" width="760" alt="Building projects, exploring technology, and turning ideas into code." />
   </picture>
 
   <br/>
 
-  <a href="https://github.com/ShadowGaming100"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/github.dark.svg" /><img src="./assets/buttons/github.light.svg" width="230" alt="GitHub" /></picture></a>
-  <a href="https://freehosts.eu"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/freehosts.dark.svg" /><img src="./assets/buttons/freehosts.light.svg" width="230" alt="FreeHosts" /></picture></a>
-  <a href="mailto:shadow@freehosts.eu"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/contact.dark.svg" /><img src="./assets/buttons/contact.light.svg" width="230" alt="Contact" /></picture></a>
+  <a href="https://github.com/ShadowGaming100"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/github.dark.svg" /><img src="./assets/buttons/github.light.svg" width="190" alt="GitHub" /></picture></a>
+  &nbsp;
+  <a href="https://freehosts.eu"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/freehosts.dark.svg" /><img src="./assets/buttons/freehosts.light.svg" width="190" alt="FreeHosts" /></picture></a>
+  &nbsp;
+  <a href="mailto:shadow@freehosts.eu"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/contact.dark.svg" /><img src="./assets/buttons/contact.light.svg" width="190" alt="Contact" /></picture></a>
 </div>
 
 <br/>
@@ -27,12 +30,20 @@
   </picture>
 </div>
 
-<p align="center">I run FreeHosts and write code at Nemethic. Most days that means JavaScript, Node.js and PostgreSQL.</p>
+<p align="center">
+  I'm a founder and developer interested in building useful projects and exploring new technologies.
+  <br/>
+  I work across frontend and backend development, APIs, Discord bots, and self-hosted infrastructure.
+  <br/>
+  Currently building <strong><a href="https://freehosts.eu">FreeHosts v2</a></strong>.
+  <br/>
+  Always excited to learn new things.
+</p>
 
 <div align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="./assets/terminal.m.svg" />
-    <img src="./assets/terminal.svg" width="100%" alt="Terminal: ShadowGaming100, Founder at FreeHosts, Developer at Nemethic, JavaScript, Node.js and PostgreSQL" />
+    <img src="./assets/terminal.svg" width="100%" alt="Developer terminal showing my role, current project, interests, and status." />
   </picture>
 </div>
 
@@ -48,10 +59,10 @@
 </div>
 
 <div align="center">
-  <a href="https://freehosts.eu"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/role.founder.dark.svg" /><img src="./assets/role.founder.light.svg" width="400" alt="Founder: FreeHosts. Community-driven directory of free hosting providers." /></picture></a>
+  <a href="https://freehosts.eu"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/role.founder.dark.svg" /><img src="./assets/role.founder.light.svg" width="400" alt="Founder of FreeHosts, a community-driven directory of free hosting providers." /></picture></a>
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/role.developer.dark.svg" />
-    <img src="./assets/role.developer.light.svg" width="400" alt="Developer: Nemethic. JavaScript, Node.js and PostgreSQL." />
+    <img src="./assets/role.developer.light.svg" width="400" alt="Developer working across frontend, backend, APIs, and infrastructure." />
   </picture>
 </div>
 
@@ -77,8 +88,9 @@
   <p><strong>Runtime &amp; Frameworks</strong></p>
   <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/node.dark.svg" /><img src="./assets/stack/node.light.svg" width="112" alt="Node.js" /></picture>
   <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/djs.dark.svg" /><img src="./assets/stack/djs.light.svg" width="112" alt="Discord.js" /></picture>
-  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/express.dark.svg" /><img src="./assets/stack/express.light.svg" width="112" alt="Express" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/express.dark.svg" /><img src="./assets/stack/express.light.svg" width="112" alt="Express.js" /></picture>
   <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/next.dark.svg" /><img src="./assets/stack/next.light.svg" width="112" alt="Next.js" /></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/fastify.dark.svg" /><img src="./assets/stack/fastify.light.svg" width="112" alt="Fastify" /></picture>
 
   <p><strong>Databases</strong></p>
   <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stack/pg.dark.svg" /><img src="./assets/stack/pg.light.svg" width="112" alt="PostgreSQL" /></picture>
@@ -106,7 +118,7 @@
 </div>
 
 <div align="center">
-  <a href="https://freehosts.eu"><picture><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/featured.m.dark.svg" /><source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/featured.m.light.svg" /><source media="(prefers-color-scheme: dark)" srcset="./assets/featured.dark.svg" /><img src="./assets/featured.light.svg" width="100%" alt="FreeHosts: a community-driven directory for discovering free hosting providers" /></picture></a>
+  <a href="https://freehosts.eu"><picture><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/featured.m.dark.svg" /><source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/featured.m.light.svg" /><source media="(prefers-color-scheme: dark)" srcset="./assets/featured.dark.svg" /><img src="./assets/featured.light.svg" width="100%" alt="FreeHosts: a community-driven directory for discovering free hosting providers." /></picture></a>
 </div>
 
 <br/>
@@ -149,22 +161,22 @@
 </div>
 
 <div align="center">
-  <p><strong>2026 · This year</strong></p>
+  <p><strong>2026 · Calendar year</strong></p>
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2026.svg" />
-    <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for 2026" />
+    <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for January through December 2026." />
   </picture>
 
-  <p><strong>2025 · Last year</strong></p>
+  <p><strong>2025 · Calendar year</strong></p>
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2025.svg" />
-    <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for 2025" />
+    <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for January through December 2025." />
   </picture>
 
   <p><strong>All-time · Entire contribution history</strong></p>
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-time.svg" />
-    <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="3D GitHub contribution history across all years" />
+    <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="3D GitHub contribution graph covering the complete contribution history." />
   </picture>
 </div>
 
@@ -182,7 +194,7 @@
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/snake.dark.gif" />
-    <img src="./assets/snake.light.gif" width="100%" alt="Snake eating my GitHub contributions" />
+    <img src="./assets/snake.light.gif" width="100%" alt="Snake eating my GitHub contributions." />
   </picture>
 </div>
 
