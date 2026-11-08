@@ -145,7 +145,50 @@ Always excited to learn new things.
   </picture>
 
   <!-- CONTRIBUTION-YEARS:START -->
-  <!-- CONTRIBUTION-YEARS:END -->
+
+  **2026 — Calendar year contributions**
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2026.svg" />
+    <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2026" />
+  </picture>
+
+  **2025 — Calendar year contributions**
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2025.svg" />
+    <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2025" />
+  </picture>
+
+  **2024 — Calendar year contributions**
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2024.svg" />
+    <img src="./profile-3d-contrib/profile-2024.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2024" />
+  </picture>
+
+  **2023 — Calendar year contributions**
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2023.svg" />
+    <img src="./profile-3d-contrib/profile-2023.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2023" />
+  </picture>
+
+  **2022 — Calendar year contributions**
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2022.svg" />
+    <img src="./profile-3d-contrib/profile-2022.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2022" />
+  </picture>
+
+  **2021 — Calendar year contributions**
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2021.svg" />
+    <img src="./profile-3d-contrib/profile-2021.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2021" />
+  </picture>
+
+<!-- CONTRIBUTION-YEARS:END -->
 
   **All Time — Complete available contribution history**
 
