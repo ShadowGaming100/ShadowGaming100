@@ -140,46 +140,32 @@ Always excited to learn new things.
 
   <!-- CONTRIBUTION-YEARS:START -->
 
-  **2026 — Calendar year contributions**
+  **Current Year — 2026 Calendar Contributions**
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2026.svg" />
     <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2026" />
   </picture>
 
-  **2025 — Calendar year contributions**
+  **Last Year — 2025 Calendar Contributions**
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2025.svg" />
     <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2025" />
   </picture>
 
-  **2024 — Calendar year contributions**
+  **All Years — Combined Calendar Contributions**
 
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2024.svg" />
-    <img src="./profile-3d-contrib/profile-2024.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2024" />
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-years.svg" />
+    <img src="./profile-3d-contrib/profile-all-years.svg" width="100%" alt="All available calendar years combined into one 3D contribution image" />
   </picture>
 
-  **2023 — Calendar year contributions**
+  **All Time — Complete Available Contribution History**
 
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2023.svg" />
-    <img src="./profile-3d-contrib/profile-2023.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2023" />
-  </picture>
-
-  **2022 — Calendar year contributions**
-
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2022.svg" />
-    <img src="./profile-3d-contrib/profile-2022.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2022" />
-  </picture>
-
-  **2021 — Calendar year contributions**
-
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2021.svg" />
-    <img src="./profile-3d-contrib/profile-2021.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2021" />
+    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-time.svg" />
+    <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="Complete available 3D GitHub contribution history through today" />
   </picture>
 
 <!-- CONTRIBUTION-YEARS:END -->
