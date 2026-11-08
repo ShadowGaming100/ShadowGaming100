@@ -10,6 +10,7 @@ on:
       - README.md
       - .github/workflows/main.yml
       - scripts/generate_assets.py
+      - scripts/generate_all_time.py
 
 permissions:
   contents: write
@@ -58,12 +59,38 @@ jobs:
           themes: light,dark
           commit: false
 
-      # 3D contribution graphics (animated green = light, night green = dark)
-      - name: Generate 3D contribution graphics
+      # 3D contribution graphics for exact calendar years.
+      # YEAR is supported by github-profile-3d-contrib; copy each run before
+      # the next one overwrites its standard output filenames.
+      - name: Generate 2026 contribution world
         uses: yoshi389111/github-profile-3d-contrib@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ env.PROFILE_USER }}
+          YEAR: "2026"
+
+      - name: Save 2026 contribution world
+        run: |
+          cp profile-3d-contrib/profile-green-animate.svg profile-3d-contrib/profile-2026.svg
+          cp profile-3d-contrib/profile-night-green.svg profile-3d-contrib/profile-night-2026.svg
+
+      - name: Generate 2025 contribution world
+        uses: yoshi389111/github-profile-3d-contrib@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ env.PROFILE_USER }}
+          YEAR: "2025"
+
+      - name: Save 2025 contribution world
+        run: |
+          cp profile-3d-contrib/profile-green-animate.svg profile-3d-contrib/profile-2025.svg
+          cp profile-3d-contrib/profile-night-green.svg profile-3d-contrib/profile-night-2025.svg
+
+      - name: Generate all-time contribution world
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ env.PROFILE_USER }}
+        run: python3 scripts/generate_all_time.py
 
       # The classic snake that eats your contributions (animated GIF, light + dark)
       - name: Generate contribution snake
