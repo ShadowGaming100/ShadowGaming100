@@ -142,7 +142,7 @@ def cube(x, y, count, theme):
     )
 
 
-def render(years, theme, through):
+def render(years, theme, through, title="ALL-TIME CONTRIBUTION HISTORY", subtitle=None):
     width = 920
     margin_x = 94
     week_step = 15.0
@@ -158,8 +158,8 @@ def render(years, theme, through):
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}" role="img" aria-label="All-time 3D GitHub contribution history">',
         f'<rect width="{width}" height="{height}" rx="12" fill="{bg}"/>',
-        f'<text x="34" y="42" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="{fg}">ALL-TIME CONTRIBUTION HISTORY</text>',
-        f'<text x="34" y="68" font-family="system-ui,sans-serif" font-size="13" fill="{muted}">From the first available contribution through {through.date().isoformat()}</text>',
+        f'<text x="34" y="42" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="{fg}">{title}</text>',
+        f'<text x="34" y="68" font-family="system-ui,sans-serif" font-size="13" fill="{muted}">{subtitle or ("From the first available contribution through " + through.date().isoformat())}</text>',
     ]
 
     for index, (year, calendar) in enumerate(years):
@@ -210,15 +210,52 @@ def main():
         years.append((year, fetch_year(token, username, year, through)))
 
     OUT.mkdir(parents=True, exist_ok=True)
+
+    # Every calendar year gets the same isometric design and both themes.
+    for year, calendar in years:
+        subtitle = f"{calendar.get('totalContributions', 0):,} contributions · January 1 – {through.date().isoformat() if year == current_year else 'December 31'}"
+        (OUT / f"profile-{year}.svg").write_text(
+            render([(year, calendar)], "light", through, f"{year} CONTRIBUTIONS", subtitle),
+            encoding="utf-8",
+        )
+        (OUT / f"profile-night-{year}.svg").write_text(
+            render([(year, calendar)], "dark", through, f"{year} CONTRIBUTIONS", subtitle),
+            encoding="utf-8",
+        )
+
     (OUT / "profile-all-time.svg").write_text(
         render(years, "light", through), encoding="utf-8"
     )
     (OUT / "profile-night-all-time.svg").write_text(
         render(years, "dark", through), encoding="utf-8"
     )
+
+    # Keep the README's yearly list synchronized with the years generated above.
+    readme = ROOT / "README.md"
+    if readme.is_file():
+        content = readme.read_text(encoding="utf-8")
+        start_marker = "<!-- CONTRIBUTION-YEARS:START -->"
+        end_marker = "<!-- CONTRIBUTION-YEARS:END -->"
+        if start_marker in content and end_marker in content:
+            entries = [start_marker, ""]
+            for year, _calendar in reversed(years):
+                entries.extend([
+                    f"  **{year} — Calendar year contributions**",
+                    "",
+                    "  <picture>",
+                    f'    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-{year}.svg" />',
+                    f'    <img src="./profile-3d-contrib/profile-{year}.svg" width="100%" alt="3D GitHub contribution graph for calendar year {year}" />',
+                    "  </picture>",
+                    "",
+                ])
+            entries.append(end_marker)
+            before, remainder = content.split(start_marker, 1)
+            _old, after = remainder.split(end_marker, 1)
+            readme.write_text(before + "\n".join(entries) + after, encoding="utf-8")
+
     print(
-        f"Generated all-time contribution graph: {first_year}–{current_year} "
-        f"({len(years)} calendar years)."
+        f"Generated matching light/dark yearly contribution graphs and all-time graph: "
+        f"{first_year}–{current_year} ({len(years)} calendar years)."
     )
 
 

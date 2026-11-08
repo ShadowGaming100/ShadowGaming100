@@ -1,61 +1,65 @@
 #!/usr/bin/env python3
-"""Validate README-local images and enforce infinite looping on generated snake GIFs."""
+"""Validate README-local assets and enforce smooth, infinite-looping GIFs."""
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
-SNAKES = [ROOT / "assets" / "snake.dark.gif", ROOT / "assets" / "snake.light.gif"]
+LOOPING_GIFS = [
+    (ROOT / "assets" / "hero.dark.gif", 150),
+    (ROOT / "assets" / "hero.light.gif", 150),
+    (ROOT / "assets" / "typing.dark.gif", 700),
+    (ROOT / "assets" / "typing.light.gif", 700),
+    (ROOT / "assets" / "terminal.gif", 1200),
+    (ROOT / "assets" / "featured.dark.gif", 150),
+    (ROOT / "assets" / "featured.light.gif", 150),
+    (ROOT / "assets" / "snake.dark.gif", 150),
+    (ROOT / "assets" / "snake.light.gif", 150),
+]
 IMAGE_RE = re.compile(
     r"\./(?:assets|profile-3d-contrib)/[A-Za-z0-9_./-]+\.(?:svg|gif|png|webp)",
     re.IGNORECASE,
 )
 
 
-def make_gif_loop_forever(path):
+def verify_gif_loop_forever(path, max_duration=150):
     try:
-        from PIL import Image, ImageSequence
+        from PIL import Image
     except ImportError as exc:
-        raise RuntimeError("Pillow is required to validate and normalize GIF looping") from exc
-
-    with Image.open(path) as source:
-        frames = [frame.convert("RGBA") for frame in ImageSequence.Iterator(source)]
-        durations = [
-            frame.info.get("duration", source.info.get("duration", 100))
-            for frame in ImageSequence.Iterator(source)
-        ]
-        if not frames:
-            raise RuntimeError(f"No frames found in {path}")
-
-    palette_frames = [
-        frame.convert("RGB").quantize(method=Image.Quantize.MEDIANCUT)
-        for frame in frames
-    ]
-    palette_frames[0].save(
-        path,
-        save_all=True,
-        append_images=palette_frames[1:],
-        duration=durations,
-        loop=0,
-        disposal=2,
-        optimize=True,
-    )
+        raise RuntimeError("Pillow is required to validate generated GIFs") from exc
 
     data = path.read_bytes()
+    if not data.startswith((b"GIF87a", b"GIF89a")):
+        raise RuntimeError(f"Invalid GIF: {path}")
     if b"NETSCAPE2.0" not in data:
-        raise RuntimeError(f"GIF looping extension was not written: {path}")
+        raise RuntimeError(f"GIF does not loop forever: {path}")
+
+    with Image.open(path) as image:
+        if image.info.get("loop") != 0:
+            raise RuntimeError(f"GIF is not configured for infinite looping: {path}")
+        if not getattr(image, "is_animated", False) or image.n_frames < 20:
+            raise RuntimeError(f"GIF is not a animated sequence: {path}")
+        durations = []
+        for frame in range(image.n_frames):
+            image.seek(frame)
+            durations.append(image.info.get("duration", 0))
+        if min(durations) < 30 or max(durations) > max_duration:
+            raise RuntimeError(
+                f"GIF frame timing is inconsistent: {path} "
+                f"({min(durations)}–{max(durations)}ms)"
+            )
 
 
 def main():
     if not README.is_file():
         raise RuntimeError("README.md is missing")
 
-    for snake in SNAKES:
-        if not snake.is_file() or snake.stat().st_size == 0:
-            raise RuntimeError(f"Missing or empty snake GIF: {snake.relative_to(ROOT)}")
-        make_gif_loop_forever(snake)
-        print(f"Looping GIF verified: {snake.relative_to(ROOT)}")
+    for gif, max_duration in LOOPING_GIFS:
+        if not gif.is_file() or gif.stat().st_size == 0:
+            raise RuntimeError(f"Missing or empty animated GIF: {gif.relative_to(ROOT)}")
+        verify_gif_loop_forever(gif, max_duration=max_duration)
+        print(f"Looping GIF verified: {gif.relative_to(ROOT)}")
 
     references = sorted(set(IMAGE_RE.findall(README.read_text(encoding="utf-8"))))
     if not references:

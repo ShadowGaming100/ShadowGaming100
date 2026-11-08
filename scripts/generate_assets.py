@@ -1,4 +1,5 @@
-import os, math, base64, html
+import os, math, base64, html, re, urllib.request, urllib.error
+from concurrent.futures import ThreadPoolExecutor
 
 OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 A = OUT + "/assets"
@@ -72,32 +73,24 @@ def box(w, h, c, x=1, y=1, r=8):
 
 # ------------------------------------------------------------ HERO
 def hero(t):
+    """Fast static SVG fallback; README uses the animated GIF counterpart."""
     c = P[t]; W, H, hz = 1000, 300, 196
-    o = [f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="ShadowGaming100 | Developer, Builder, Founder">']
-    o.append(f'<defs><clipPath id="all"><rect width="{W}" height="{H}" rx="10"/></clipPath><clipPath id="fl"><rect y="{hz}" width="{W}" height="{H-hz}"/></clipPath>'
-             f'<linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{c["grid"]}" stop-opacity="0"/><stop offset="1" stop-color="{c["grid"]}" stop-opacity="1"/></linearGradient></defs>')
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="ShadowGaming100 | Developer, Builder, Founder">']
+    o.append(f'<defs><clipPath id="all"><rect width="{W}" height="{H}" rx="10"/></clipPath><clipPath id="fl"><rect y="{hz}" width="{W}" height="{H-hz}"/></clipPath></defs>')
     o.append('<g clip-path="url(#all)">')
     o.append(f'<rect width="{W}" height="{H}" fill="{c["card"]}"/>')
-    # perspective floor (plain lines)
     o.append(f'<g clip-path="url(#fl)" stroke="{c["grid"]}" stroke-opacity="{c["gop"]}" stroke-width="1">')
     for xb in range(-1400, 2500, 120):
         o.append(f'<line x1="500" y1="{hz}" x2="{xb}" y2="{H+40}"/>')
-    o.append('</g>')
-    N, dur = 7, 5
-    o.append('<g clip-path="url(#fl)">')
-    for k in range(N):
-        ys = ";".join(f"{hz + (H-hz+6)*(u/12)**2.2:.1f}" for u in range(13))
-        ops = ";".join(f"{min(1,(u/12)*2)*float(c['gop'])*1.8:.3f}" for u in range(13))
-        o.append(f'<rect x="0" width="{W}" height="1" fill="{c["grid"]}" y="{hz}" opacity="0">'
-                 f'<animate attributeName="y" values="{ys}" dur="{dur}s" begin="-{k*dur/N:.2f}s" repeatCount="indefinite"/>'
-                 f'<animate attributeName="opacity" values="{ops}" dur="{dur}s" begin="-{k*dur/N:.2f}s" repeatCount="indefinite"/></rect>')
+    for row in range(7):
+        y = hz + 4 + row * 15
+        o.append(f'<line x1="0" y1="{y}" x2="{W}" y2="{y}"/>')
     o.append('</g>')
     o.append(f'<rect y="{hz}" width="{W}" height="1.5" fill="{c["line"]}"/>')
-    # floating cubes (flat gray plus one accent)
-    for (x, y, s, col, amp, d, b) in [(140, 150, 34, c["cube"], 10, 5, 0), (862, 128, 28, c["acc"], 9, 4.4, 1.6)]:
-        o.append(f'<g>{bob(amp, d, b)}{cube(x, y, s, col)}</g>')
-    o.append(f'<text x="500" y="118" text-anchor="middle" font-family="{MONO}" font-weight="800" font-size="56" letter-spacing="6" fill="{c["fg"]}" opacity="0">SHADOWGAMING100<animate attributeName="opacity" from="0" to="1" dur=".9s" fill="freeze"/></text>')
-    o.append(f'<text x="500" y="164" text-anchor="middle" font-family="{MONO}" font-size="22" font-weight="600" letter-spacing="5" fill="{c["sub"]}" opacity="0">DEVELOPER · BUILDER · FOUNDER<animate attributeName="opacity" from="0" to="1" dur=".9s" begin=".4s" fill="freeze"/></text>')
+    o.append(cube(140, 150, 34, c["cube"]))
+    o.append(cube(862, 128, 28, c["acc"]))
+    o.append(f'<text x="500" y="118" text-anchor="middle" font-family="{MONO}" font-weight="800" font-size="56" letter-spacing="6" fill="{c["fg"]}">SHADOWGAMING100</text>')
+    o.append(f'<text x="500" y="164" text-anchor="middle" font-family="{MONO}" font-size="22" font-weight="600" letter-spacing="5" fill="{c["sub"]}">DEVELOPER · BUILDER · FOUNDER</text>')
     o.append('</g>')
     o.append(f'<rect x=".75" y=".75" width="{W-1.5}" height="{H-1.5}" rx="10" fill="none" stroke="{c["line"]}" stroke-width="1.5"/>')
     o.append('</svg>')
@@ -207,15 +200,63 @@ TECH = [
     ("gha", "GitHub Actions", "Tool", "#2088ff", "A"),
 ]
 
+# Official Simple Icons slugs and brand colours. These logos are fetched by
+# GitHub Actions and embedded into generated local SVGs, so README rendering
+# never depends on a third-party image host.
+SIMPLE_ICONS = {
+    "js": ("javascript", "F7DF1E"), "ts": ("typescript", "3178C6"),
+    "py": ("python", "3776AB"), "html": ("html5", "E34F26"),
+    "css": ("css3", "1572B6"), "node": ("nodedotjs", "5FA04E"),
+    "djs": ("discord", "5865F2"), "express": ("express", "FFFFFF"),
+    "next": ("nextdotjs", "FFFFFF"), "fastify": ("fastify", "FFFFFF"),
+    "pg": ("postgresql", "4169E1"), "mysql": ("mysql", "4479A1"),
+    "mongo": ("mongodb", "47A248"), "cf": ("cloudflare", "F38020"),
+    "git": ("git", "F05032"), "github": ("github", "FFFFFF"),
+    "gha": ("githubactions", "2088FF"),
+}
+_ICON_PATHS = {}
+
+
+def simple_icon_path(key):
+    if key in _ICON_PATHS:
+        return _ICON_PATHS[key]
+    slug, brand = SIMPLE_ICONS[key]
+    url = f"https://cdn.simpleicons.org/{slug}/{brand}"
+    last_error = None
+    for attempt in range(3):
+        try:
+            request = urllib.request.Request(
+                url, headers={"User-Agent": "ShadowGaming100-profile-assets"}
+            )
+            with urllib.request.urlopen(request, timeout=8) as response:
+                source = response.read(120_000).decode("utf-8")
+            paths = re.findall(r'<path\b[^>]*\bd="([^"]+)"[^>]*/?>', source)
+            if not paths:
+                raise RuntimeError(f"Simple Icons returned no SVG path for {key}")
+            _ICON_PATHS[key] = paths
+            return paths
+        except (OSError, UnicodeError, urllib.error.URLError, RuntimeError) as exc:
+            last_error = exc
+    raise RuntimeError(f"Unable to download the official {key} logo from Simple Icons") from last_error
+
+
 def tech_icon(theme, key, name, color, mark):
     c = P[theme]
-    mark_size = 27 if len(mark) < 3 else 21
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104" width="104" height="104" role="img" aria-label="{name}">
+    paths = simple_icon_path(key)
+    # Monochrome marks invert between themes so they remain legible.
+    logo_color = color
+    if key in ("express", "next", "github"):
+        logo_color = "#ffffff" if theme == "dark" else "#24292f"
+    logo = "".join(
+        f'<path d="{path}" fill="{logo_color}"/>'
+        for path in paths
+    )
+    mark_svg = f'<svg x="31" y="31" width="42" height="42" viewBox="0 0 24 24" aria-hidden="true">{logo}</svg>'
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104" width="104" height="104" role="img" aria-label="{html.escape(name)}">
 <rect x="1" y="1" width="102" height="102" rx="18" fill="{c['card']}" stroke="{c['line']}" stroke-width="2"/>
-<rect x="13" y="13" width="78" height="78" rx="14" fill="{color}"/>
-<path d="M25 26 H79 V78 H25 Z" fill="none" stroke="#ffffff" stroke-opacity=".16" stroke-width="2"/>
-<text x="52" y="64" text-anchor="middle" font-family="{MONO}" font-size="{mark_size}" font-weight="800" fill="#ffffff">{mark}</text>
+{mark_svg}
 </svg>"""
+
 
 def tile(theme, index):
     key, name, category, color, mark = TECH[index]
@@ -307,6 +348,9 @@ def footer(t):
 
 # ------------------------------------------------------------ WRITE
 os.makedirs(f"{A}/stack", exist_ok=True)
+# Fetch all official brand marks concurrently so a slow CDN cannot delay every tile.
+with ThreadPoolExecutor(max_workers=12) as workers:
+    list(workers.map(simple_icon_path, [tech[0] for tech in TECH]))
 for t in ("dark", "light"):
     write(f"hero.{t}.svg", hero(t)); write(f"typing.{t}.svg", typing(t)); write(f"footer.{t}.svg", footer(t))
     write(f"featured.{t}.svg", featured(t)); write(f"featured.m.{t}.svg", featured_m(t))
