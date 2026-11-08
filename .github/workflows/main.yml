@@ -101,6 +101,20 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md assets profile-3d-contrib
 
+          # GIFs may be matched by broad repository ignore rules. Force-add the
+          # generated animations so their raw.githubusercontent.com URLs exist.
+          git add -f assets/*.gif
+
+          # Fail the workflow before committing if any README GIF was not generated.
+          for gif in assets/hero.dark.gif assets/hero.light.gif \\
+                     assets/typing.dark.gif assets/typing.light.gif \\
+                     assets/terminal.gif assets/featured.dark.gif \\
+                     assets/featured.light.gif assets/snake.dark.gif \\
+                     assets/snake.light.gif; do
+            test -s "$gif" || { echo "::error::Missing generated GIF: $gif"; exit 1; }
+            file "$gif"
+          done
+
           if git diff --cached --quiet; then
             echo "No generated assets changed."
             exit 0
