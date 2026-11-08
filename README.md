@@ -1,7 +1,7 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/hero.dark.svg" />
-    <img src="./assets/hero.light.svg" width="100%" alt="ShadowGaming100 | Developer, Builder, Founder" />
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/hero.dark.gif" />
+    <img src="./assets/hero.light.gif" width="100%" alt="ShadowGaming100 | Developer, Builder, Founder" />
   </picture>
 
   <a href="https://github.com/ShadowGaming100"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/github.dark.svg" /><img src="./assets/buttons/github.light.svg" width="180" alt="GitHub" /></picture></a>
@@ -30,8 +30,15 @@ Always excited to learn new things.
 
 <div align="center">
   <picture>
-    <source media="(max-width: 600px)" srcset="./assets/terminal.m.svg" />
-    <img src="./assets/terminal.svg" width="100%" alt="Animated terminal showing current project and interests" />
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/typing.dark.gif" />
+    <img src="./assets/typing.light.gif" width="100%" alt="Animated developer status messages" />
+  </picture>
+</div>
+
+<div align="center">
+  <picture>
+    <source media="(max-width: 600px)" srcset="./assets/terminal.gif" />
+    <img src="./assets/terminal.gif" width="100%" alt="Animated terminal showing current project and interests" />
   </picture>
 </div>
 
@@ -93,7 +100,10 @@ Always excited to learn new things.
 </div>
 
 <div align="center">
-  <a href="https://freehosts.eu"><picture><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/featured.m.dark.svg" /><source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/featured.m.light.svg" /><source media="(prefers-color-scheme: dark)" srcset="./assets/featured.dark.svg" /><img src="./assets/featured.light.svg" width="100%" alt="FreeHosts: a community-driven directory for discovering free hosting providers" /></picture></a>
+  <a href="https://freehosts.eu"><picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/featured.dark.gif" />
+    <img src="./assets/featured.light.gif" width="100%" alt="FreeHosts: a community-driven directory for discovering free hosting providers" />
+  </picture></a>
 </div>
 
 <br/>
@@ -134,19 +144,8 @@ Always excited to learn new things.
     <img src="./assets/headers/world.light.svg" width="100%" alt="3D contribution graphs" />
   </picture>
 
-  **2026 — January 1 to December 31, 2026**
-
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2026.svg" />
-    <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2026" />
-  </picture>
-
-  **2025 — January 1 to December 31, 2025**
-
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2025.svg" />
-    <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2025" />
-  </picture>
+  <!-- CONTRIBUTION-YEARS:START -->
+  <!-- CONTRIBUTION-YEARS:END -->
 
   **All Time — Complete available contribution history**
 
