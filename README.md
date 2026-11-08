@@ -17,7 +17,6 @@
       <img src="./assets/buttons/github.light.svg" height="52" alt="GitHub" />
     </picture>
   </a>
-  <a href="https://freehosts.eu"><img src="https://freehosts.eu/Src/icons/icon.png" height="52" width="52" alt="FreeHosts logo" /></a>
   <a href="https://freehosts.eu">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/freehosts.dark.svg" />
@@ -96,8 +95,6 @@
 </div>
 
 <div align="center">
-  <a href="https://freehosts.eu"><img src="https://freehosts.eu/Src/icons/icon.png" height="72" width="72" alt="FreeHosts logo" /></a>
-  <br/>
   <a href="https://freehosts.eu">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/featured.dark.svg" />
