@@ -213,7 +213,9 @@ def _run_artwork():
     SIMPLE_ICONS = {
         "js": ("javascript", "F7DF1E"), "ts": ("typescript", "3178C6"),
         "py": ("python", "3776AB"), "html": ("html5", "E34F26"),
-        "css": ("css3", "1572B6"), "node": ("nodedotjs", "5FA04E"),
+        # Simple Icons uses the canonical slug "css" (not "css3").
+        # The old slug returned 404 from every CDN and aborted the build.
+        "css": ("css", "1572B6"), "node": ("nodedotjs", "5FA04E"),
         "djs": ("discord", "5865F2"), "express": ("express", "FFFFFF"),
         "next": ("nextdotjs", "FFFFFF"), "fastify": ("fastify", "FFFFFF"),
         "pg": ("postgresql", "4169E1"), "mysql": ("mysql", "4479A1"),
