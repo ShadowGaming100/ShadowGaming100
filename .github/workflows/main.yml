@@ -10,6 +10,7 @@ on:
       - README.md
       - .github/workflows/main.yml
       - scripts/generate_assets.py
+      - scripts/generate_snake.py
 
 permissions:
   contents: write
@@ -37,6 +38,12 @@ jobs:
       - name: Prepare directories
         run: mkdir -p assets profile-3d-contrib
 
+      # The real FreeHosts icon is downloaded here and embedded into the artwork,
+      # so the graphics never depend on the site being up when GitHub renders them.
+      - name: Download FreeHosts icon
+        continue-on-error: true
+        run: curl -fsSL --max-time 30 -o assets/freehosts-icon.png https://freehosts.eu/Src/icons/icon.png
+
       # Hero, headers, buttons, cards, stack, terminal, footer (local SVG art)
       - name: Generate README artwork
         run: python3 scripts/generate_assets.py
@@ -59,14 +66,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ env.PROFILE_USER }}
 
-      # Animated contribution snake
+      # Custom 3D snake: reads the contribution calendar and draws it as raised
+      # bars that the snake eats. Falls back to an empty grid if the API call fails.
       - name: Generate contribution snake
-        uses: Platane/snk@v3
-        with:
-          github_user_name: ${{ env.PROFILE_USER }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          outputs: |
-            assets/github-snake.gif?color_snake=%23ffffff&color_dots=%230d1117,%23333333,%23666666,%23aaaaaa,%23ffffff&color_background=%23050505
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/generate_snake.py
 
       # Trophies come from a third-party script, so a failure here must not
       # break the rest of the run. The last good trophy files stay in place.
@@ -109,7 +114,7 @@ jobs:
             assets/overview.light.svg assets/overview.dark.svg
             assets/contributions.light.svg assets/contributions.dark.svg
             assets/languages.light.svg assets/languages.dark.svg
-            assets/github-snake.gif
+            assets/snake.light.svg assets/snake.dark.svg
             assets/trophy.light.svg assets/trophy.dark.svg
             profile-3d-contrib/profile-green-animate.svg
             profile-3d-contrib/profile-night-green.svg
@@ -160,9 +165,6 @@ jobs:
             esac
             echo "OK: $f"
           done
-
-          head -c 3 assets/github-snake.gif | grep -q 'GIF' \
-            || { echo "::error::Snake is not a valid GIF"; exit 1; }
 
       - name: Commit generated assets
         shell: bash
