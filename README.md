@@ -1,7 +1,7 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/hero.dark.gif" />
-    <img src="./assets/hero.light.gif" width="100%" alt="ShadowGaming100 | Developer, Builder, Founder" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/master/assets/hero.dark.gif" />
+    <img src="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/master/assets/hero.light.gif" width="100%" alt="ShadowGaming100 | Developer, Builder, Founder" />
   </picture>
 
   <a href="https://github.com/ShadowGaming100"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/buttons/github.dark.svg" /><img src="./assets/buttons/github.light.svg" width="180" alt="GitHub" /></picture></a>
@@ -29,11 +29,14 @@ Currently building FreeHosts v2.
 Always excited to learn new things.
 
 <div align="center">
-  <img src="./assets/typing.dark.gif" width="100%" alt="Animated developer status messages" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/master/assets/typing.dark.gif" />
+    <img src="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/master/assets/typing.light.gif" width="100%" alt="Animated developer status messages" />
+  </picture>
 </div>
 
 <div align="center">
-  <img src="./assets/terminal.gif" width="100%" alt="Animated terminal showing current project and interests" />
+  <img src="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/master/assets/terminal.gif" width="100%" alt="Animated terminal showing current project and interests" />
 </div>
 
 <br/>
@@ -94,10 +97,12 @@ Always excited to learn new things.
 </div>
 
 <div align="center">
-  <a href="https://freehosts.eu"><picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/featured.dark.gif" />
-    <img src="./assets/featured.light.gif" width="100%" alt="FreeHosts: a community-driven directory for discovering free hosting providers" />
-  </picture></a>
+  <a href="https://freehosts.eu">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/master/assets/featured.dark.gif" />
+      <img src="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/master/assets/featured.light.gif" width="100%" alt="FreeHosts: a community-driven directory for discovering free hosting providers" />
+    </picture>
+  </a>
 </div>
 
 <br/>
@@ -140,25 +145,25 @@ Always excited to learn new things.
 
   <!-- CONTRIBUTION-YEARS:START -->
 
-  ### 2026 — January 1 to December 31, 2026
+  **Current Year — 2026 Calendar Contributions**
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2026.svg" />
     <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2026" />
   </picture>
 
-  ### 2025 — January 1 to December 31, 2025
+  **Last Year — 2025 Calendar Contributions**
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2025.svg" />
     <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2025" />
   </picture>
 
-  ### All years — January 1, 2021 to December 31, 2026
+  **All Years — Combined Calendar Contributions**
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-years.svg" />
-    <img src="./profile-3d-contrib/profile-all-years.svg" width="100%" alt="All available calendar years combined into one 3D contribution graph" />
+    <img src="./profile-3d-contrib/profile-all-years.svg" width="100%" alt="All available calendar years combined into one 3D contribution image" />
   </picture>
 
   **All Time — Complete Available Contribution History**
@@ -168,7 +173,7 @@ Always excited to learn new things.
     <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="Complete available 3D GitHub contribution history through today" />
   </picture>
 
-<!-- CONTRIBUTION-YEARS:END -->
+  <!-- CONTRIBUTION-YEARS:END -->
 </div>
 
 <br/>
@@ -183,7 +188,7 @@ Always excited to learn new things.
 </div>
 
 <div align="center">
-  <img src="./assets/snake.dark.gif" width="100%" alt="Animated snake eating GitHub contribution cells" />
+  <img src="https://raw.githubusercontent.com/ShadowGaming100/ShadowGaming100/master/assets/snake.dark.gif" width="100%" alt="Animated snake eating GitHub contribution cells" />
 </div>
 
 <br/>
