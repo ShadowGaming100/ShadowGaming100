@@ -145,25 +145,25 @@ Always excited to learn new things.
 
   <!-- CONTRIBUTION-YEARS:START -->
 
-  **Current Year — 2026 Calendar Contributions**
+  ### 2026 — January 1 to December 31, 2026
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2026.svg" />
     <img src="./profile-3d-contrib/profile-2026.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2026" />
   </picture>
 
-  **Last Year — 2025 Calendar Contributions**
+  ### 2025 — January 1 to December 31, 2025
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-2025.svg" />
     <img src="./profile-3d-contrib/profile-2025.svg" width="100%" alt="3D GitHub contribution graph for calendar year 2025" />
   </picture>
 
-  **All Years — Combined Calendar Contributions**
+  ### All years — January 1, 2021 to December 31, 2026
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-all-years.svg" />
-    <img src="./profile-3d-contrib/profile-all-years.svg" width="100%" alt="All available calendar years combined into one 3D contribution image" />
+    <img src="./profile-3d-contrib/profile-all-years.svg" width="100%" alt="All available calendar years combined into one 3D contribution graph" />
   </picture>
 
   **All Time — Complete Available Contribution History**
@@ -173,7 +173,7 @@ Always excited to learn new things.
     <img src="./profile-3d-contrib/profile-all-time.svg" width="100%" alt="Complete available 3D GitHub contribution history through today" />
   </picture>
 
-  <!-- CONTRIBUTION-YEARS:END -->
+<!-- CONTRIBUTION-YEARS:END -->
 </div>
 
 <br/>
