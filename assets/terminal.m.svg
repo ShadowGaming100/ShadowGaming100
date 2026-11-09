@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 360 300" width="360" height="300" role="img" aria-label="Terminal animation: Founder and Developer, FreeHosts v2, Web Development, APIs, Discord Bots, Always learning.">
+<rect x="1" y="1" width="358" height="298" rx="9" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
+<path d="M1 47 V10 a9 9 0 0 1 9 -9 H350 a9 9 0 0 1 9 9 V47 Z" fill="#161b22"/>
+<path d="M1 47 H359" stroke="#30363d"/>
+<circle cx="22" cy="24" r="5" fill="#ff5f57"/>
+<circle cx="41" cy="24" r="5" fill="#febc2e"/>
+<circle cx="60" cy="24" r="5" fill="#28c840"/>
+<text x="180.0" y="29" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11" fill="#8b949e">shadow@profile: ~</text>
+<clipPath id="terminal-line-0"><rect x="18" y="70" width="0" height="27"><animate attributeName="width" values="0;0;62.6;62.6;0" keyTimes="0;0.06687;0.14095;0.99900;1" dur="9.72s" repeatCount="indefinite"/></rect></clipPath>
+<text x="18" y="82" clip-path="url(#terminal-line-0)" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.0" font-weight="700" fill="#3fb950" xml:space="preserve">$ whoami</text>
+<clipPath id="terminal-line-1"><rect x="18" y="97" width="0" height="27"><animate attributeName="width" values="0;0;143.1;143.1;0" keyTimes="0;0.16152;0.22531;0.99900;1" dur="9.72s" repeatCount="indefinite"/></rect></clipPath>
+<text x="18" y="109" clip-path="url(#terminal-line-1)" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.0" font-weight="500" fill="#e6edf3" xml:space="preserve">Founder &amp; Developer</text>
+<clipPath id="terminal-line-2"><rect x="18" y="124" width="0" height="27"><animate attributeName="width" values="0;0;128.4;128.4;0" keyTimes="0;0.24588;0.33436;0.99900;1" dur="9.72s" repeatCount="indefinite"/></rect></clipPath>
+<text x="18" y="136" clip-path="url(#terminal-line-2)" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.0" font-weight="700" fill="#3fb950" xml:space="preserve">$ current-project</text>
+<clipPath id="terminal-line-3"><rect x="18" y="151" width="0" height="27"><animate attributeName="width" values="0;0;91.8;91.8;0" keyTimes="0;0.35494;0.40432;0.99900;1" dur="9.72s" repeatCount="indefinite"/></rect></clipPath>
+<text x="18" y="163" clip-path="url(#terminal-line-3)" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.0" font-weight="500" fill="#e6edf3" xml:space="preserve">FreeHosts v2</text>
+<clipPath id="terminal-line-4"><rect x="18" y="178" width="0" height="27"><animate attributeName="width" values="0;0;84.5;84.5;0" keyTimes="0;0.42490;0.51955;0.99900;1" dur="9.72s" repeatCount="indefinite"/></rect></clipPath>
+<text x="18" y="190" clip-path="url(#terminal-line-4)" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.0" font-weight="700" fill="#3fb950" xml:space="preserve">$ interests</text>
+<clipPath id="terminal-line-5"><rect x="18" y="205" width="0" height="27"><animate attributeName="width" values="0;0;274.8;274.8;0" keyTimes="0;0.54012;0.68930;0.99900;1" dur="9.72s" repeatCount="indefinite"/></rect></clipPath>
+<text x="18" y="217" clip-path="url(#terminal-line-5)" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.0" font-weight="500" fill="#e6edf3" xml:space="preserve">Web Development • APIs • Discord Bots</text>
+<clipPath id="terminal-line-6"><rect x="18" y="232" width="0" height="27"><animate attributeName="width" values="0;0;62.6;62.6;0" keyTimes="0;0.70988;0.77366;0.99900;1" dur="9.72s" repeatCount="indefinite"/></rect></clipPath>
+<text x="18" y="244" clip-path="url(#terminal-line-6)" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.0" font-weight="700" fill="#3fb950" xml:space="preserve">$ status</text>
+<clipPath id="terminal-line-7"><rect x="18" y="259" width="0" height="27"><animate attributeName="width" values="0;0;135.8;135.8;0" keyTimes="0;0.79424;0.87654;0.99900;1" dur="9.72s" repeatCount="indefinite"/></rect></clipPath>
+<text x="18" y="271" clip-path="url(#terminal-line-7)" font-family="ui-monospace,SFMono-Regular,'JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.0" font-weight="500" fill="#e6edf3" xml:space="preserve">Always learning...</text>
+</svg>
